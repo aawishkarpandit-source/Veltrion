@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useAsync } from '../../lib/hooks';
+import { useAsync, useTheme } from '../../lib/hooks';
 import { getNavItems, getSettings } from '../../lib/content';
 import { gsap, useScrollScene } from '../../lib/motion';
 
@@ -9,9 +9,11 @@ function currentYear(): string {
 }
 
 export default function Footer() {
+  const { theme } = useTheme();
   const { data: settings } = useAsync(() => getSettings(), []);
   const { data: footerItems } = useAsync(() => getNavItems('footer'), []);
   const footerRef = useRef<HTMLElement>(null);
+  const dark = theme === 'dark';
 
   // 3D wordmark: levels out of a perspective tilt as it scrolls into view.
   useScrollScene(footerRef, (_ctx, reduced) => {
@@ -47,9 +49,12 @@ export default function Footer() {
   return (
     <footer ref={footerRef} className="footer">
       <div className="footer-inner">
-        <div style={{ perspective: '1200px' }}>
+        <div className="footer-mark">
           <Link to="/" className="footer-wordmark" aria-label="VELTRION — home">
-            VELTRION
+            <img
+              src={dark ? '/logo/brand-dark.png' : '/logo/brand-light.png'}
+              alt="VELTRION"
+            />
           </Link>
         </div>
 

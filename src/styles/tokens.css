@@ -1,9 +1,8 @@
 /* ==========================================================================
-   VELTRION design tokens — elevated "Apple × premium-tech" system.
-   Light theme stays clean and editorial; dark theme goes deep and cinematic
-   (true-black canvas, aurora gradient accents, glass surfaces, glow).
-   The Refero Apple bones (SF Pro scale, 980px pills, 8px cards, hairlines)
-   are preserved — this layer adds depth, light and motion on top.
+   VELTRION design tokens — brand-green "premium tech" system.
+   Anchored on the logo green (#00BF63): light theme stays clean and editorial
+   with deep-green actions; dark theme goes cinematic (near-black canvas,
+   luminous emerald accents, green aurora, glass surfaces, glow).
    ========================================================================== */
 
 :root,
@@ -11,82 +10,94 @@
   color-scheme: light;
 
   /* Surfaces */
-  --color-canvas: #f5f5f7; /* page background, section default */
-  --color-wash: #eef2f8; /* light blue-tinted elevated section */
+  --color-canvas: #f6f8f7; /* page background, section default */
+  --color-wash: #eef4f1; /* green-tinted elevated section */
   --color-surface: #ffffff; /* raised tiles on the canvas */
-  --color-surface-2: #e7e7ec; /* filled surfaces, avatar circles */
-  --color-nav: rgba(245, 245, 247, 0.72);
+  --color-surface-2: #e6ebe8; /* filled surfaces, avatar circles */
+  --color-nav: rgba(246, 248, 247, 0.72);
 
   /* Ink */
-  --color-ink: #17171a; /* primary text */
-  --color-ink-2: #3a3a40; /* secondary text */
-  --color-ink-3: #6b6b73; /* muted text, footer links */
-  --color-muted: #86868b; /* quiet notes */
-  --color-hairline: #d8d8de; /* 1px rules, input borders */
+  --color-ink: #141815; /* primary text */
+  --color-ink-2: #333936; /* secondary text */
+  --color-ink-3: #646966; /* muted text, footer links */
+  --color-muted: #7d827f; /* quiet notes */
+  --color-hairline: #d6dbd8; /* 1px rules, input borders */
 
   /* Action — one color, one job */
-  --color-fill: #0071e3; /* filled pill ONLY */
-  --color-fill-hover: #0077ed;
-  --color-link: #0066cc; /* outlined pill, text links */
-  --color-link-hover: #005bb8;
-  --color-decor: #2997ff; /* decorative strokes only */
+  --color-fill: #00873f; /* filled pill ONLY (AA on white text) */
+  --color-fill-hover: #009647;
+  --color-link: #007a3d; /* outlined pill, text links */
+  --color-link-hover: #00622f;
+  --color-decor: #00a85c; /* decorative strokes only */
   --color-on-fill: #ffffff;
 
   /* Gradient accents — hero type, glows, borders */
-  --grad-brand: linear-gradient(120deg, #0a84ff 0%, #5e5ce6 48%, #bf5af2 100%);
-  --grad-text: linear-gradient(115deg, #0071e3 0%, #5e5ce6 55%, #bf5af2 100%);
-  --grad-line: linear-gradient(120deg, rgba(10, 132, 255, 0.55), rgba(191, 90, 242, 0.45));
-  --glow-accent: 0 10px 40px -12px rgba(10, 132, 255, 0.55);
-  --glow-soft: 0 18px 60px -24px rgba(94, 92, 230, 0.45);
+  --grad-brand: linear-gradient(120deg, #00994f 0%, #00bf63 52%, #45d68a 100%);
+  --grad-text: linear-gradient(115deg, #00873f 0%, #00a85c 55%, #23c977 100%);
+  --grad-line: linear-gradient(120deg, rgba(0, 168, 92, 0.5), rgba(69, 214, 138, 0.45));
+  --glow-accent: 0 10px 40px -12px rgba(0, 168, 92, 0.5);
+  --glow-soft: 0 18px 60px -24px rgba(0, 185, 100, 0.4);
+  --glow-fill-strong: 0 16px 56px -12px rgba(0, 168, 92, 0.65);
+  --glow-logo: rgba(0, 168, 92, 0.3);
 
   /* Ambient aurora (kept subtle on light so text contrast holds) */
-  --aurora-1: rgba(10, 132, 255, 0.16);
-  --aurora-2: rgba(191, 90, 242, 0.14);
-  --aurora-3: rgba(94, 92, 230, 0.14);
+  --aurora-1: rgba(0, 168, 92, 0.15);
+  --aurora-2: rgba(69, 214, 138, 0.14);
+  --aurora-3: rgba(0, 191, 99, 0.13);
+
+  /* Shader backdrop tints */
+  --shader-tint: rgba(0, 168, 92, 0.05);
+  --shader-grid: rgba(0, 133, 71, 0.12);
 
   /* Glass */
   --glass-bg: rgba(255, 255, 255, 0.6);
   --glass-border: rgba(255, 255, 255, 0.7);
 
   /* Product-shot grounding shadow — images only, never cards/buttons */
-  --shadow-product: 3px 5px 30px rgba(23, 23, 26, 0.18);
+  --shadow-product: 3px 5px 30px rgba(20, 24, 21, 0.18);
 }
 
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --color-canvas: #050507;
-  --color-wash: #0c0c11;
-  --color-surface: #101015;
-  --color-surface-2: #1b1b22;
-  --color-nav: rgba(5, 5, 7, 0.66);
+  --color-canvas: #050807;
+  --color-wash: #0b100d;
+  --color-surface: #0f1512;
+  --color-surface-2: #1a231e;
+  --color-nav: rgba(5, 8, 7, 0.66);
 
-  --color-ink: #f5f5f7;
-  --color-ink-2: #b4b4be;
-  --color-ink-3: #98989d;
-  --color-muted: #86868b;
+  --color-ink: #f2f6f3;
+  --color-ink-2: #b0bab4;
+  --color-ink-3: #8f9791;
+  --color-muted: #7d827f;
   --color-hairline: rgba(255, 255, 255, 0.1);
 
-  --color-fill: #0a84ff;
-  --color-fill-hover: #2a93ff;
-  --color-link: #4aa8ff;
-  --color-link-hover: #7cc2ff;
-  --color-decor: #59c0ff;
+  --color-fill: #00a854;
+  --color-fill-hover: #00bd60;
+  --color-link: #3fd985;
+  --color-link-hover: #6fe6a6;
+  --color-decor: #34d985;
   --color-on-fill: #ffffff;
 
   /* Gradient accents pop hard on the deep canvas */
-  --grad-brand: linear-gradient(120deg, #2a93ff 0%, #7b6cff 46%, #d16bff 100%);
-  --grad-text: linear-gradient(115deg, #4aa8ff 0%, #8f7bff 50%, #d16bff 100%);
-  --grad-line: linear-gradient(120deg, rgba(42, 147, 255, 0.7), rgba(209, 107, 255, 0.55));
-  --glow-accent: 0 12px 48px -12px rgba(42, 147, 255, 0.6);
-  --glow-soft: 0 22px 72px -28px rgba(123, 108, 255, 0.6);
+  --grad-brand: linear-gradient(120deg, #00c264 0%, #2fd981 50%, #7ce8ab 100%);
+  --grad-text: linear-gradient(115deg, #34d985 0%, #57e29a 52%, #9af0c0 100%);
+  --grad-line: linear-gradient(120deg, rgba(0, 200, 100, 0.65), rgba(124, 232, 171, 0.45));
+  --glow-accent: 0 12px 48px -12px rgba(0, 200, 100, 0.55);
+  --glow-soft: 0 22px 72px -28px rgba(47, 217, 129, 0.5);
+  --glow-fill-strong: 0 16px 56px -12px rgba(0, 200, 100, 0.6);
+  --glow-logo: rgba(0, 200, 100, 0.35);
 
   /* Aurora is the hero of the dark theme */
-  --aurora-1: rgba(42, 147, 255, 0.4);
-  --aurora-2: rgba(209, 107, 255, 0.32);
-  --aurora-3: rgba(123, 108, 255, 0.34);
+  --aurora-1: rgba(0, 200, 100, 0.38);
+  --aurora-2: rgba(69, 224, 145, 0.3);
+  --aurora-3: rgba(124, 232, 171, 0.26);
 
-  --glass-bg: rgba(20, 20, 26, 0.55);
+  /* Shader backdrop tints */
+  --shader-tint: rgba(0, 200, 100, 0.07);
+  --shader-grid: rgba(52, 217, 133, 0.16);
+
+  --glass-bg: rgba(16, 22, 19, 0.55);
   --glass-border: rgba(255, 255, 255, 0.12);
 
   --shadow-product: 3px 5px 34px rgba(0, 0, 0, 0.7);

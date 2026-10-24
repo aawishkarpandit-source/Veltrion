@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Nav from './Nav';
 import Footer from './Footer';
+import ShaderBackdrop from '../ui/ShaderBackdrop';
 import { useAsync } from '../../lib/hooks';
 import { getSettings } from '../../lib/content';
 
@@ -22,6 +23,7 @@ export default function Layout() {
   return (
     <>
       <ThemeDefaults />
+      <ShaderBackdrop />
       <Nav />
       <main className="app-main">
         <Outlet />

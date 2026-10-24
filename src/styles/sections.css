@@ -6,7 +6,7 @@
 
 .hero {
   position: relative;
-  background: var(--color-canvas);
+  background: transparent;
   text-align: center;
   padding: clamp(72px, 10vw, 132px) var(--page-gutter) clamp(64px, 8vw, 104px);
   overflow: hidden;
@@ -61,9 +61,23 @@
 .hero-logo {
   display: block;
   margin: 0 auto var(--spacing-32, 32px);
-  width: clamp(96px, 15vw, 132px);
+  width: auto;
+  height: clamp(88px, 13vw, 120px);
+  filter: drop-shadow(0 18px 46px var(--glow-logo));
+}
+
+/* Admin-editable hero image (Text blocks → home.hero.image) */
+.hero-image {
+  display: block;
+  margin: 0 auto var(--spacing-40);
+  max-width: min(880px, 92vw);
+  max-height: min(440px, 42vh);
+  width: auto;
   height: auto;
-  filter: drop-shadow(0 18px 46px rgba(10, 132, 255, 0.35));
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-hairline);
+  box-shadow: var(--shadow-product), 0 24px 80px -32px var(--glow-logo);
+  background: var(--color-surface);
 }
 
 .hero-tagline {
@@ -532,7 +546,7 @@
 
 .page-intro {
   position: relative;
-  background: var(--color-canvas);
+  background: transparent;
   text-align: center;
   padding: clamp(72px, 10vw, 128px) var(--page-gutter) clamp(40px, 5vw, 64px);
   overflow: hidden;
@@ -583,7 +597,7 @@
 .marquee-band {
   position: relative;
   padding: clamp(56px, 8vw, 104px) 0;
-  background: var(--color-canvas);
+  background: transparent;
   overflow: hidden;
   perspective: 1400px;
 }

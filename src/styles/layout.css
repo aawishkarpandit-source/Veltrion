@@ -6,6 +6,19 @@
   min-height: 60vh;
 }
 
+/* WebGL shader backdrop — fixed behind all content, never interactive. ----- */
+
+.shader-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh; /* fallback */
+  height: 100dvh;
+  z-index: -1;
+  display: block;
+  pointer-events: none;
+}
+
 /* Nav -------------------------------------------------------------------- */
 
 .nav {
@@ -52,13 +65,21 @@
   flex-shrink: 0;
 }
 
-.nav-brand-text {
-  font-family: var(--font-brand);
-  font-size: 16px;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  color: var(--color-ink);
-  transition: color 300ms ease;
+.nav-logo {
+  display: block;
+  height: 26px;
+  width: auto;
+  transition: opacity var(--duration-press) ease, transform var(--duration-press) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-brand:hover .nav-logo {
+    opacity: 0.82;
+  }
+}
+
+.nav-brand:active .nav-logo {
+  transform: scale(0.97);
 }
 
 .nav-links {
@@ -193,11 +214,12 @@
 }
 
 .section-canvas {
-  background: var(--color-canvas);
+  background: transparent;
 }
 
 .section-wash {
-  background: var(--color-wash);
+  /* Translucent so the shader backdrop breathes through the bands. */
+  background: color-mix(in srgb, var(--color-wash) 76%, transparent);
   transition: background-color 300ms ease;
 }
 
@@ -240,11 +262,11 @@
 
 .footer {
   position: relative;
-  background: var(--color-canvas);
+  background: transparent;
   border-top: 1px solid var(--color-hairline);
   padding: var(--section-pad-y) var(--page-gutter) var(--spacing-40);
   overflow: hidden;
-  transition: background-color 300ms ease, border-color 300ms ease;
+  transition: border-color 300ms ease;
 }
 
 .footer-inner {
@@ -252,26 +274,31 @@
   margin: 0 auto;
 }
 
-.footer-wordmark {
-  font-family: var(--font-brand);
-  font-size: clamp(56px, 13vw, 172px);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  color: var(--color-ink);
-  display: block;
+.footer-mark {
+  perspective: 1200px;
   margin-bottom: var(--section-pad-y);
-  transition: color 300ms ease, transform 400ms var(--ease-out);
+}
+
+.footer-wordmark {
+  display: inline-block;
   transform-style: preserve-3d;
   will-change: transform;
+}
+
+.footer-wordmark img {
+  display: block;
+  width: clamp(240px, 38vw, 460px);
+  height: auto;
+  transition: transform 400ms var(--ease-out), filter 400ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .footer-wordmark:hover {
     text-decoration: none;
-    background: var(--grad-text);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  }
+  .footer-wordmark:hover img {
+    transform: scale(1.02);
+    filter: drop-shadow(0 14px 40px var(--glow-logo));
   }
 }
 

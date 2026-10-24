@@ -4,7 +4,6 @@ import { useAsync, useTheme } from '../../lib/hooks';
 import { getTextBlocks } from '../../lib/content';
 import { gsap, useScrollScene } from '../../lib/motion';
 import Reveal from '../ui/Reveal';
-import Aurora from '../ui/Aurora';
 
 export default function Hero() {
   const { theme } = useTheme();
@@ -17,11 +16,13 @@ export default function Hero() {
     blocks?.['home.hero.subline'] ?? 'Websites, software, business systems, design, marketing and support.';
   const ctaPrimary = blocks?.['home.hero.cta_primary'] ?? 'See our work';
   const ctaSecondary = blocks?.['home.hero.cta_secondary'] ?? 'Contact us';
+  // Admin-editable hero image (Text blocks). Empty = default logo mark.
+  const heroImage = (blocks?.['home.hero.image'] ?? '').trim();
 
-  // Scroll-linked 3D: logo recedes in Z, headline rises, actions follow.
+  // Scroll-linked 3D: the visual recedes in Z and fades, headline rises.
   useScrollScene(sceneRef, (_ctx, reduced) => {
     if (reduced) return;
-    gsap.to('.hero-logo', {
+    gsap.to('.hero-logo, .hero-image', {
       yPercent: -14,
       scale: 0.94,
       opacity: 0.35,
@@ -37,15 +38,23 @@ export default function Hero() {
 
   return (
     <section ref={sceneRef} className="hero">
-      <Aurora />
       <Reveal variant="tilt3d">
-        <img
-          className="hero-logo"
-          src={dark ? '/logo/dark-logo-no-text.png' : '/logo/logo-no-text.png'}
-          alt="VELTRION"
-          width={2000}
-          height={2000}
-        />
+        {heroImage ? (
+          <img
+            className="hero-image"
+            src={heroImage}
+            alt="VELTRION"
+            loading="eager"
+          />
+        ) : (
+          <img
+            className="hero-logo"
+            src={dark ? '/logo/brand-mark-dark.png' : '/logo/brand-mark-light.png'}
+            alt="VELTRION"
+            width={816}
+            height={936}
+          />
+        )}
       </Reveal>
       <Reveal delay={80} variant="tilt3d">
         <h1 className="display hero-tagline grad-text">{headline}</h1>

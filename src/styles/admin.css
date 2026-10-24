@@ -11,7 +11,7 @@
 }
 
 .admin-root a {
-  color: #0066cc;
+  color: #007a3d;
 }
 
 /* Login ------------------------------------------------------------------ */
@@ -145,7 +145,7 @@
 }
 
 .admin-side .badge {
-  background: #0a84ff;
+  background: #00a854;
   color: #fff;
   border-radius: 980px;
   font-size: 11px;
@@ -211,14 +211,14 @@
 }
 
 .abtn-primary {
-  background: #0071e3;
-  border-color: #0071e3;
+  background: #00873f;
+  border-color: #00873f;
   color: #fff;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .abtn-primary:hover {
-    background: #006ed3;
+    background: #00753a;
   }
 }
 

@@ -114,6 +114,12 @@ export const DEFAULT_BLOCKS: TextBlock[] = [
     value: 'Contact us',
   },
   {
+    key: 'home.hero.image',
+    page: 'home',
+    label: 'Hero image URL (upload to Media and paste the public URL — leave empty to show the logo mark)',
+    value: '',
+  },
+  {
     key: 'services.title',
     page: 'home',
     label: 'Services — section heading',

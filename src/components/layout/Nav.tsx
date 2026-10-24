@@ -28,7 +28,11 @@ export default function Nav() {
     <header className={`nav${scrolled ? ' is-scrolled' : ''}`}>
       <div className="nav-inner">
         <Link to="/" className="nav-brand" aria-label="VELTRION — home">
-          <span className="nav-brand-text">VELTRION</span>
+          <img
+            className="nav-logo"
+            src={dark ? '/logo/brand-dark.png' : '/logo/brand-light.png'}
+            alt="VELTRION"
+          />
         </Link>
 
         <nav className="nav-links" aria-label="Main">

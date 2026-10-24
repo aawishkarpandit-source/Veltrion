@@ -222,7 +222,7 @@ button {
 @media (hover: hover) and (pointer: fine) {
   .btn-filled:hover {
     background: var(--color-fill-hover);
-    box-shadow: 0 16px 56px -12px rgba(10, 132, 255, 0.7);
+    box-shadow: var(--glow-fill-strong);
   }
 }
 

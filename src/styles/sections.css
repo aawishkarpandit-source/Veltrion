@@ -1,0 +1,426 @@
+/* ==========================================================================
+   Sections — hero, grids, cards, forms per page
+   ========================================================================== */
+
+/* Hero -------------------------------------------------------------------- */
+
+.hero {
+  background: var(--color-canvas);
+  text-align: center;
+  padding: clamp(56px, 8vw, 96px) var(--page-gutter) clamp(48px, 7vw, 80px);
+}
+
+.hero-logo {
+  margin: 0 auto var(--spacing-40);
+  max-width: min(560px, 82vw);
+  filter: var(--hero-shadow, none);
+}
+
+[data-theme='light'] .hero-logo {
+  filter: drop-shadow(var(--shadow-product));
+}
+
+.hero-tagline {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.hero-subline {
+  max-width: 640px;
+  margin: var(--spacing-20) auto 0;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-12);
+  margin-top: var(--spacing-32, 32px);
+  flex-wrap: wrap;
+}
+
+/* Product shot (work screenshots, app covers) ----------------------------- */
+
+.product-shot {
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-product);
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Generic grid ------------------------------------------------------------ */
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-24);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-24);
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-24);
+}
+
+@media (max-width: 960px) {
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cards ------------------------------------------------------------------- */
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-24);
+  transition: background-color 220ms ease;
+}
+
+.card-title {
+  font-size: var(--text-subheading);
+  line-height: var(--leading-subheading);
+  letter-spacing: var(--tracking-subheading);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--spacing-8);
+}
+
+.card-desc {
+  color: var(--color-ink-3);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+  letter-spacing: var(--tracking-body-sm);
+}
+
+/* Process steps ------------------------------------------------------------ */
+
+.step-title {
+  font-size: var(--text-subheading);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--spacing-8);
+}
+
+.step-desc {
+  color: var(--color-ink-3);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+}
+
+.checklist {
+  max-width: var(--content-width);
+  margin: var(--spacing-48) auto 0;
+  display: grid;
+  gap: var(--spacing-12);
+}
+
+@media (min-width: 720px) {
+  .checklist {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-24);
+  }
+}
+
+.checklist li {
+  display: flex;
+  gap: var(--spacing-8);
+  align-items: flex-start;
+  font-size: var(--text-body-sm);
+  color: var(--color-ink-2);
+}
+
+.check-icon {
+  color: var(--color-decor);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Statement (why / vision / mission) --------------------------------------- */
+
+.statement {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.statement .subheading {
+  margin-top: var(--spacing-24);
+}
+
+.pair {
+  display: grid;
+  gap: var(--spacing-40);
+  max-width: var(--content-width);
+  margin: var(--spacing-56) auto 0;
+}
+
+@media (min-width: 720px) {
+  .pair {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-56);
+  }
+}
+
+.pair h3 {
+  font-size: var(--text-subheading);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--spacing-8);
+}
+
+.pair p {
+  color: var(--color-ink-3);
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+}
+
+/* Team -------------------------------------------------------------------- */
+
+.member {
+  display: flex;
+  gap: var(--spacing-16);
+  align-items: flex-start;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-2);
+  color: var(--color-ink-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-body-sm);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member-name {
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+}
+
+.member-role {
+  font-size: var(--text-body-sm);
+  color: var(--color-decor);
+  margin-bottom: var(--spacing-4);
+}
+
+.member-bio {
+  font-size: var(--text-body-sm);
+  color: var(--color-ink-3);
+  line-height: var(--leading-body-sm);
+}
+
+/* Projects ---------------------------------------------------------------- */
+
+.project-media {
+  margin-bottom: var(--spacing-20);
+}
+
+.project-client {
+  font-size: var(--text-subheading);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--spacing-8);
+}
+
+.project-desc {
+  color: var(--color-ink-3);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body-sm);
+  margin-bottom: var(--spacing-12);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+  margin-bottom: var(--spacing-12);
+}
+
+.review {
+  border-top: 1px solid var(--color-hairline);
+  padding-top: var(--spacing-16);
+  margin-top: var(--spacing-4);
+}
+
+.review blockquote {
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+  color: var(--color-ink-2);
+  font-style: italic;
+}
+
+.review cite {
+  display: block;
+  margin-top: var(--spacing-8);
+  font-style: normal;
+  font-size: var(--text-caption);
+  color: var(--color-ink-3);
+}
+
+/* Downloads ---------------------------------------------------------------- */
+
+.download-meta {
+  display: flex;
+  gap: var(--spacing-12);
+  font-size: var(--text-caption);
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-8);
+  flex-wrap: wrap;
+}
+
+.download-actions {
+  margin-top: var(--spacing-16);
+  display: flex;
+  gap: var(--spacing-12);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Empty state -------------------------------------------------------------- */
+
+.empty-state {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--spacing-40) 0;
+}
+
+.empty-state p {
+  color: var(--color-ink-3);
+  margin-top: var(--spacing-12);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.empty-state .btn {
+  margin-top: var(--spacing-24);
+}
+
+/* Contact ------------------------------------------------------------------ */
+
+.contact-grid {
+  display: grid;
+  gap: var(--spacing-56);
+  max-width: var(--wide-width);
+  margin: 0 auto;
+}
+
+@media (min-width: 880px) {
+  .contact-grid {
+    grid-template-columns: 5fr 7fr;
+    gap: var(--spacing-56);
+  }
+}
+
+.contact-item {
+  margin-bottom: var(--spacing-24);
+}
+
+.contact-item-label {
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
+  color: var(--color-ink-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.contact-item-value {
+  font-size: var(--text-body);
+  color: var(--color-ink);
+  word-break: break-word;
+}
+
+.socials {
+  display: flex;
+  gap: var(--spacing-12);
+  flex-wrap: wrap;
+  margin-top: var(--spacing-8);
+}
+
+.form-grid {
+  display: grid;
+  gap: var(--spacing-16);
+}
+
+.form-row {
+  display: grid;
+  gap: var(--spacing-16);
+}
+
+@media (min-width: 560px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form-success {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-40);
+  text-align: center;
+}
+
+.form-success .check-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto var(--spacing-16);
+}
+
+/* Page intro (About / Work / Download headers) ------------------------------ */
+
+.page-intro {
+  background: var(--color-canvas);
+  text-align: center;
+  padding: clamp(56px, 8vw, 96px) var(--page-gutter) clamp(32px, 5vw, 56px);
+}
+
+.page-intro .subheading {
+  max-width: 640px;
+  margin: var(--spacing-16) auto 0;
+}
+
+/* About -------------------------------------------------------------------- */
+
+.about-prose {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.about-prose p {
+  font-size: var(--text-subheading);
+  line-height: 1.5;
+  font-weight: var(--weight-light);
+  color: var(--color-ink-2);
+}
+
+.org-note {
+  max-width: var(--content-width);
+  margin: var(--spacing-40) auto 0;
+  color: var(--color-ink-3);
+  font-size: var(--text-body-sm);
+  line-height: 1.5;
+}

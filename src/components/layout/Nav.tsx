@@ -1,0 +1,66 @@
+import { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useAsync, useTheme } from '../../lib/hooks';
+import { getNavItems } from '../../lib/content';
+import { SunIcon, MoonIcon, MenuIcon, CloseIcon } from '../ui/icons';
+
+export default function Nav() {
+  const { theme, toggle } = useTheme();
+  const { data: items } = useAsync(() => getNavItems('nav'), []);
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
+
+  const dark = theme === 'dark';
+
+  return (
+    <header className="nav">
+      <div className="nav-inner">
+        <Link to="/" className="nav-brand" aria-label="VELTRION — home">
+          <span className="nav-brand-text">VELTRION</span>
+        </Link>
+
+        <nav className="nav-links" aria-label="Main">
+          {(items ?? []).map((item) => (
+            <NavLink key={item.href} to={item.href} end={item.href === '/'} className="nav-link">
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="nav-actions">
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={toggle}
+            aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
+          >
+            {dark ? <SunIcon /> : <MoonIcon />}
+          </button>
+          <button
+            type="button"
+            className="menu-button"
+            aria-expanded={open}
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <CloseIcon /> : <MenuIcon />}
+          </button>
+        </div>
+      </div>
+
+      {open && (
+        <nav className="menu-panel menu-fade" aria-label="Mobile">
+          {(items ?? []).map((item) => (
+            <NavLink key={item.href} to={item.href} end={item.href === '/'} className="nav-link">
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+      )}
+    </header>
+  );
+}

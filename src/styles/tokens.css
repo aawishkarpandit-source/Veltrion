@@ -1,0 +1,130 @@
+/* ==========================================================================
+   VELTRION design tokens — from the Refero "Apple design system" style sheet.
+   Light theme follows the sheet exactly; dark theme follows Apple's dark
+   conventions (true black canvas, lifted blues, hairline #333).
+   ========================================================================== */
+
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+
+  /* Surfaces */
+  --color-canvas: #f5f5f7; /* page background, section default */
+  --color-wash: #f4f8fb; /* light blue-tinted elevated section */
+  --color-surface: #ffffff; /* raised tiles on the canvas */
+  --color-surface-2: #e2e2e5; /* filled surfaces, avatar circles */
+  --color-nav: rgba(245, 245, 247, 0.72);
+
+  /* Ink */
+  --color-ink: #1d1d1f; /* primary text */
+  --color-ink-2: #333333; /* secondary text, borders */
+  --color-ink-3: #707070; /* muted text, footer links */
+  --color-muted: #86868b; /* quiet notes */
+  --color-hairline: #d2d2d7; /* 1px rules, input borders */
+
+  /* Action — one color, one job */
+  --color-fill: #0071e3; /* filled pill ONLY */
+  --color-fill-hover: color-mix(in srgb, #0071e3 88%, #000);
+  --color-link: #0066cc; /* outlined pill, text links */
+  --color-link-hover: color-mix(in srgb, #0066cc 88%, #000);
+  --color-decor: #2997ff; /* decorative strokes only */
+  --color-on-fill: #ffffff;
+
+  /* Product-shot grounding shadow — images only, never cards/buttons */
+  --shadow-product: 3px 5px 30px rgba(0, 0, 0, 0.22);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-canvas: #000000;
+  --color-wash: #1d1d1f;
+  --color-surface: #1d1d1f;
+  --color-surface-2: #2c2c2e;
+  --color-nav: rgba(0, 0, 0, 0.72);
+
+  --color-ink: #f5f5f7;
+  --color-ink-2: #a1a1a6;
+  --color-ink-3: #98989d; /* Apple dark secondary label */
+  --color-muted: #86868b;
+  --color-hairline: #333333;
+
+  --color-fill: #0a84ff;
+  --color-fill-hover: color-mix(in srgb, #0a84ff 112%, #fff);
+  --color-link: #2997ff;
+  --color-link-hover: color-mix(in srgb, #2997ff 112%, #fff);
+  --color-decor: #2997ff;
+  --color-on-fill: #ffffff;
+
+  --shadow-product: 3px 5px 30px rgba(0, 0, 0, 0.55);
+}
+
+:root {
+  /* Type families */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-brand: 'Archivo Black', 'Inter', -apple-system, sans-serif;
+
+  /* Type scale — SF Pro scale from the sheet, made fluid for small screens */
+  --text-caption: 13px; /* Apple footnote */
+  --leading-caption: 1.33;
+  --tracking-caption: -0.01em;
+
+  --text-body-sm: 16px; /* Apple callout — card & supporting copy */
+  --leading-body-sm: 1.45;
+  --tracking-body-sm: -0.016em;
+
+  --text-body: 17px;
+  --leading-body: 1.47;
+  --tracking-body: -0.016em;
+
+  --text-subheading: clamp(18px, 2.2vw, 21px);
+  --leading-subheading: 1.35;
+  --tracking-subheading: -0.014em;
+
+  --text-heading-sm: clamp(21px, 2.8vw, 28px);
+  --leading-heading-sm: 1.2;
+  --tracking-heading-sm: -0.016em;
+
+  --text-heading: clamp(28px, 4vw, 40px);
+  --leading-heading: 1.14;
+  --tracking-heading: -0.02em;
+
+  --text-display: clamp(36px, 6.6vw, 96px);
+  --leading-display: 1.07;
+  --tracking-display: -0.024em;
+
+  /* Weights */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-semibold: 600;
+
+  /* Spacing (base unit 4px) */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-56: 56px;
+
+  /* Layout */
+  --content-width: 980px; /* text blocks center here */
+  --wide-width: 1180px; /* grids center here */
+  --section-pad-y: clamp(64px, 9vw, 112px);
+  --page-gutter: clamp(20px, 5vw, 32px);
+  --nav-height: 52px;
+
+  /* Radius — the only two values in the system */
+  --radius-card: 8px;
+  --radius-pill: 980px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --duration-press: 140ms;
+  --duration-quick: 180ms;
+  --duration-reveal: 520ms;
+}

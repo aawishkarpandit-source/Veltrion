@@ -1,0 +1,316 @@
+/* ==========================================================================
+   Layout — nav bar, footer, page shells
+   ========================================================================== */
+
+.app-main {
+  min-height: 60vh;
+}
+
+/* Nav -------------------------------------------------------------------- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-nav);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--color-hairline);
+  transition: background-color 220ms ease, border-color 220ms ease;
+}
+
+.nav-inner {
+  max-width: var(--wide-width);
+  margin: 0 auto;
+  padding: 0 var(--page-gutter);
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-16);
+}
+
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-brand-text {
+  font-family: var(--font-brand);
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--color-ink);
+  transition: color 220ms ease;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-24);
+}
+
+.nav-link {
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-ink);
+  padding: 6px 2px;
+  position: relative;
+}
+
+.nav-link:hover {
+  text-decoration: none;
+  color: var(--color-link);
+}
+
+.nav-link[aria-current='page'] {
+  font-weight: var(--weight-semibold);
+}
+
+.nav-link[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-link);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  flex-shrink: 0;
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-2);
+  transition: transform var(--duration-press) var(--ease-out),
+    background-color var(--duration-press) ease, color var(--duration-press) ease;
+}
+
+.theme-toggle:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .theme-toggle:hover {
+    background: var(--color-surface-2);
+  }
+}
+
+.menu-button {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink);
+  transition: transform var(--duration-press) var(--ease-out);
+}
+
+.menu-button:active {
+  transform: scale(0.97);
+}
+
+.menu-panel {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .nav-links {
+    display: none;
+  }
+  .menu-button {
+    display: inline-flex;
+  }
+  .menu-panel {
+    display: block;
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: var(--color-nav);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--color-hairline);
+    padding: var(--spacing-8) var(--page-gutter) var(--spacing-16);
+  }
+  .menu-panel .nav-link {
+    display: block;
+    font-size: var(--text-body);
+    padding: 12px 2px;
+  }
+}
+
+.menu-fade {
+  animation: menu-fade var(--duration-quick) var(--ease-out);
+}
+
+@keyframes menu-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Sections ---------------------------------------------------------------- */
+
+.section {
+  padding: var(--section-pad-y) var(--page-gutter);
+}
+
+.section-canvas {
+  background: var(--color-canvas);
+}
+
+.section-wash {
+  background: var(--color-wash);
+  transition: background-color 220ms ease;
+}
+
+.section-inner {
+  max-width: var(--wide-width);
+  margin: 0 auto;
+}
+
+.section-inner-narrow {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.section-head {
+  max-width: var(--content-width);
+  margin: 0 auto var(--spacing-48);
+  text-align: center;
+}
+
+.section-head .subheading {
+  margin-top: var(--spacing-12);
+}
+
+.section-head-left {
+  text-align: left;
+  margin-left: 0;
+}
+
+/* Footer ------------------------------------------------------------------ */
+
+.footer {
+  background: var(--color-canvas);
+  border-top: 1px solid var(--color-hairline);
+  padding: var(--section-pad-y) var(--page-gutter) var(--spacing-40);
+  transition: background-color 220ms ease, border-color 220ms ease;
+}
+
+.footer-inner {
+  max-width: var(--wide-width);
+  margin: 0 auto;
+}
+
+.footer-wordmark {
+  font-family: var(--font-brand);
+  font-size: clamp(56px, 13vw, 168px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  display: block;
+  margin-bottom: var(--section-pad-y);
+  transition: color 220ms ease;
+}
+
+.footer-wordmark:hover {
+  text-decoration: none;
+}
+
+.footer-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-40) var(--spacing-24);
+  margin-bottom: var(--spacing-48);
+}
+
+@media (max-width: 720px) {
+  .footer-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.footer-col-title {
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-12);
+}
+
+.footer-col a,
+.footer-col span {
+  display: block;
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-ink-3);
+  padding: 4px 0;
+}
+
+.footer-col a:hover {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+.footer-legal {
+  border-top: 1px solid var(--color-hairline);
+  padding-top: var(--spacing-20);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8) var(--spacing-24);
+  justify-content: space-between;
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-ink-3);
+}
+
+/* Reveal (scroll entrance) — only hidden when JS is running to animate it */
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--duration-reveal) var(--ease-out),
+    transform var(--duration-reveal) var(--ease-out);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Loading skeleton -------------------------------------------------------- */
+
+.skeleton {
+  background: var(--color-surface-2);
+  border-radius: var(--radius-card);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}

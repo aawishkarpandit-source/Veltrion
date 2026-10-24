@@ -11,13 +11,10 @@
 }
 
 .hero-logo {
+  display: block;
   margin: 0 auto var(--spacing-40);
-  max-width: min(560px, 82vw);
-  filter: var(--hero-shadow, none);
-}
-
-[data-theme='light'] .hero-logo {
-  filter: drop-shadow(var(--shadow-product));
+  max-width: min(300px, 64vw);
+  height: auto;
 }
 
 .hero-tagline {

@@ -19,10 +19,10 @@ export default function Hero() {
       <Reveal>
         <img
           className="hero-logo"
-          src={dark ? '/logo/dark-full-size-logo.png' : '/logo/full-size-logo.png'}
+          src={dark ? '/logo/hero-dark.png' : '/logo/hero-light.png'}
           alt="VELTRION"
-          width={560}
-          height={180}
+          width={1563}
+          height={578}
         />
       </Reveal>
       <Reveal delay={80}>

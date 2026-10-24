@@ -122,3 +122,12 @@ export interface ContactMessage {
   read: boolean;
   created_at: string;
 }
+
+export interface PageSection {
+  id: string;
+  page: string;
+  label: string;
+  section_key: string;
+  visible: boolean;
+  sort_order: number;
+}

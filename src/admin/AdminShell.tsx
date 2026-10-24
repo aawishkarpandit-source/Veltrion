@@ -42,6 +42,9 @@ export default function AdminShell() {
         <NavLink to="/admin/messages" className={({ isActive }) => (isActive ? 'active' : '')}>
           Messages {unread > 0 && <span className="badge">{unread}</span>}
         </NavLink>
+        <NavLink to="/admin/page-sections" className={({ isActive }) => (isActive ? 'active' : '')}>
+          Page sections
+        </NavLink>
 
         <p className="admin-side-title">Content</p>
         {Object.entries(COLLECTIONS)

@@ -1,22 +1,24 @@
 import { useAsync } from '../lib/hooks';
 import { getTextBlocks } from '../lib/content';
-import Reveal from '../components/ui/Reveal';
+import PageHeader from '../components/sections/PageHeader';
 import ProjectsGrid from '../components/sections/ProjectsGrid';
+import PageSections from '../components/layout/PageSections';
 
 export default function OurWork() {
   const { data: blocks } = useAsync(() => getTextBlocks(), []);
 
+  const sections = {
+    projects: <ProjectsGrid />,
+  };
+
   return (
     <>
-      <header className="page-intro">
-        <Reveal>
-          <h1 className="heading">{blocks?.['work.title'] ?? 'Our work.'}</h1>
-        </Reveal>
-        <Reveal delay={70}>
-          <p className="subheading">{blocks?.['work.subtitle'] ?? ''}</p>
-        </Reveal>
-      </header>
-      <ProjectsGrid />
+      <PageHeader
+        eyebrow="Our work"
+        title={blocks?.['work.title'] ?? 'Our work.'}
+        subtitle={blocks?.['work.subtitle'] ?? ''}
+      />
+      <PageSections page="work" sections={sections} />
     </>
   );
 }

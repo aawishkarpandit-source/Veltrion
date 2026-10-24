@@ -7,6 +7,7 @@ import {
   DEFAULT_BLOCKS,
   DEFAULT_DOWNLOADS,
   DEFAULT_NAV,
+  DEFAULT_PAGE_SECTIONS,
   DEFAULT_PROCESS,
   DEFAULT_PROCESS_BULLETS,
   DEFAULT_PROJECTS,
@@ -19,6 +20,7 @@ import type {
   ContentBullet,
   DownloadItem,
   NavItem,
+  PageSection,
   ProcessStep,
   Project,
   Service,
@@ -186,5 +188,22 @@ export function getDownloads(): Promise<DownloadItem[]> {
       return bySort(await select<DownloadItem[]>(supabase.from('downloads').select('*').order('sort_order'), []));
     },
     DEFAULT_DOWNLOADS,
+  );
+}
+
+/** Visible section order for a page. Falls back to the seeded order. */
+export function getPageSections(page: string): Promise<PageSection[]> {
+  return cached(
+    `page-sections-${page}`,
+    async () => {
+      const supabase = getSupabase()!;
+      const rows = await select<PageSection[]>(
+        supabase.from('page_sections').select('*').eq('page', page).order('sort_order'),
+        [],
+      );
+      if (rows.length === 0) return DEFAULT_PAGE_SECTIONS.filter((s) => s.page === page);
+      return bySort(rows);
+    },
+    DEFAULT_PAGE_SECTIONS.filter((s) => s.page === page),
   );
 }

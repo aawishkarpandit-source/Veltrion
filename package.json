@@ -13,7 +13,9 @@
   "dependencies": {
     "@fontsource/archivo-black": "^5.1.0",
     "@fontsource/inter": "^5.1.0",
+    "@gsap/react": "^2.1.2",
     "@supabase/supabase-js": "^2.47.0",
+    "gsap": "^3.15.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.0"

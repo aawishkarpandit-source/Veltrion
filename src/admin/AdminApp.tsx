@@ -11,11 +11,25 @@ import SettingsPage from './pages/SettingsPage';
 import TextBlocksPage from './pages/TextBlocksPage';
 import MediaPage from './pages/MediaPage';
 import MessagesPage from './pages/MessagesPage';
+import PageSectionsPage from './pages/PageSectionsPage';
 
 export default function AdminApp() {
   const supabase = getSupabase();
   const [session, setSession] = useState<Session | null>(null);
   const [checking, setChecking] = useState(true);
+
+  // The admin is a quiet light app with hardcoded light surfaces — force the
+  // light theme context while it's mounted so a visitor's dark public theme
+  // never bleeds in (white text on white cards). Restored on leave.
+  useEffect(() => {
+    const root = document.documentElement;
+    const prev = root.getAttribute('data-theme');
+    root.setAttribute('data-theme', 'light');
+    return () => {
+      if (prev) root.setAttribute('data-theme', prev);
+      else root.removeAttribute('data-theme');
+    };
+  }, []);
 
   useEffect(() => {
     if (!supabase) {
@@ -59,6 +73,7 @@ export default function AdminApp() {
         <Route element={<AdminShell />}>
           <Route index element={<Dashboard />} />
           <Route path="messages" element={<MessagesPage />} />
+          <Route path="page-sections" element={<PageSectionsPage />} />
           <Route path="media" element={<MediaPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="text-blocks" element={<TextBlocksPage />} />

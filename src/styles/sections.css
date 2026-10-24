@@ -1,49 +1,99 @@
 /* ==========================================================================
-   Sections — hero, grids, cards, forms per page
+   Sections — hero 3D scene, glass/tilt cards, grids, forms
    ========================================================================== */
 
 /* Hero -------------------------------------------------------------------- */
 
 .hero {
+  position: relative;
   background: var(--color-canvas);
   text-align: center;
-  padding: clamp(56px, 8vw, 96px) var(--page-gutter) clamp(48px, 7vw, 80px);
+  padding: clamp(72px, 10vw, 132px) var(--page-gutter) clamp(64px, 8vw, 104px);
+  overflow: hidden;
+  isolation: isolate;
 }
+
+/* Ambient aurora behind the hero — pure transform/opacity drift, GPU-friendly */
+.hero-aurora {
+  position: absolute;
+  inset: -20% -10% auto;
+  height: 130%;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(46px);
+  opacity: 0.9;
+}
+
+.hero-aurora span {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+[data-theme='light'] .hero-aurora span {
+  mix-blend-mode: multiply;
+}
+
+.hero-aurora .a1 {
+  width: 46vw; height: 46vw;
+  left: 6%; top: 2%;
+  background: radial-gradient(circle at 30% 30%, var(--aurora-1), transparent 66%);
+  animation: drift1 18s var(--ease-in-out) infinite alternate;
+}
+.hero-aurora .a2 {
+  width: 42vw; height: 42vw;
+  right: 4%; top: 0%;
+  background: radial-gradient(circle at 60% 40%, var(--aurora-2), transparent 66%);
+  animation: drift2 22s var(--ease-in-out) infinite alternate;
+}
+.hero-aurora .a3 {
+  width: 40vw; height: 40vw;
+  left: 34%; top: 22%;
+  background: radial-gradient(circle at 50% 50%, var(--aurora-3), transparent 68%);
+  animation: drift3 26s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes drift1 { to { transform: translate3d(6%, 5%, 0) scale(1.12); } }
+@keyframes drift2 { to { transform: translate3d(-7%, 6%, 0) scale(1.08); } }
+@keyframes drift3 { to { transform: translate3d(4%, -6%, 0) scale(1.15); } }
 
 .hero-logo {
   display: block;
-  margin: 0 auto var(--spacing-40);
-  max-width: min(300px, 64vw);
+  margin: 0 auto var(--spacing-32, 32px);
+  width: clamp(96px, 15vw, 132px);
   height: auto;
+  filter: drop-shadow(0 18px 46px rgba(10, 132, 255, 0.35));
 }
 
 .hero-tagline {
-  max-width: 720px;
+  max-width: 780px;
   margin: 0 auto;
 }
 
 .hero-subline {
   max-width: 640px;
-  margin: var(--spacing-20) auto 0;
+  margin: var(--spacing-24) auto 0;
 }
 
 .hero-actions {
   display: flex;
   justify-content: center;
   gap: var(--spacing-12);
-  margin-top: var(--spacing-32, 32px);
+  margin-top: var(--spacing-40);
   flex-wrap: wrap;
 }
 
 /* Product shot (work screenshots, app covers) ----------------------------- */
 
 .product-shot {
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   box-shadow: var(--shadow-product);
   width: 100%;
   display: block;
   object-fit: cover;
+  transition: transform 520ms var(--ease-out);
 }
 
 /* Generic grid ------------------------------------------------------------ */
@@ -81,13 +131,59 @@
   }
 }
 
-/* Cards ------------------------------------------------------------------- */
+/* Cards — glass surface, gradient border, pointer tilt --------------------- */
+
+.card-wrap {
+  perspective: var(--perspective);
+  height: 100%;
+}
 
 .card {
+  position: relative;
+  height: 100%;
   background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
   border-radius: var(--radius-card);
   padding: var(--spacing-24);
-  transition: background-color 220ms ease;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 300ms var(--ease-out), border-color 300ms ease,
+    box-shadow 300ms ease, background-color 300ms ease;
+  will-change: transform;
+}
+
+/* Sheen sweep — decorative highlight that follows the pointer (fine pointers only) */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    340px circle at var(--mx, 50%) var(--my, 0%),
+    color-mix(in srgb, var(--color-decor) 16%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+[data-theme='light'] .card::after {
+  background: radial-gradient(
+    340px circle at var(--mx, 50%) var(--my, 0%),
+    color-mix(in srgb, var(--color-decor) 10%, transparent),
+    transparent 60%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    border-color: color-mix(in srgb, var(--color-decor) 40%, var(--color-hairline));
+    box-shadow: var(--glow-soft);
+  }
+  .card:hover::after {
+    opacity: 1;
+  }
 }
 
 .card-title {
@@ -96,6 +192,7 @@
   letter-spacing: var(--tracking-subheading);
   font-weight: var(--weight-semibold);
   margin-bottom: var(--spacing-8);
+  transform: translateZ(18px);
 }
 
 .card-desc {
@@ -103,9 +200,40 @@
   font-size: var(--text-body-sm);
   line-height: var(--leading-body-sm);
   letter-spacing: var(--tracking-body-sm);
+  transform: translateZ(10px);
+}
+
+/* Numbered service cards get a ghost numeral for depth */
+.card-num {
+  position: absolute;
+  top: 6px; right: 14px;
+  font-family: var(--font-brand);
+  font-size: 58px;
+  line-height: 1;
+  color: color-mix(in srgb, var(--color-decor) 16%, transparent);
+  transform: translateZ(6px);
+  pointer-events: none;
+}
+
+[data-theme='light'] .card-num {
+  color: color-mix(in srgb, var(--color-decor) 14%, transparent);
 }
 
 /* Process steps ------------------------------------------------------------ */
+
+.step {
+  position: relative;
+  padding-top: var(--spacing-20);
+}
+
+.step::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 34px; height: 3px;
+  border-radius: 3px;
+  background: var(--grad-brand);
+}
 
 .step-title {
   font-size: var(--text-subheading);
@@ -147,7 +275,7 @@
   margin-top: 2px;
 }
 
-/* Statement (why / vision / mission) --------------------------------------- */
+/* Statement (why / vision / mission) — pinned 3D showcase ----------------- */
 
 .statement {
   max-width: var(--content-width);
@@ -206,6 +334,7 @@
   font-size: var(--text-body-sm);
   flex-shrink: 0;
   overflow: hidden;
+  border: 1px solid var(--color-hairline);
 }
 
 .avatar img {
@@ -235,6 +364,14 @@
 
 .project-media {
   margin-bottom: var(--spacing-20);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .product-shot {
+    transform: scale(1.03);
+  }
 }
 
 .project-client {
@@ -287,6 +424,7 @@
   color: var(--color-muted);
   margin-bottom: var(--spacing-8);
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .download-actions {
@@ -343,6 +481,7 @@
   font-weight: var(--weight-semibold);
   color: var(--color-ink-3);
   margin-bottom: var(--spacing-4);
+  letter-spacing: 0.02em;
 }
 
 .contact-item-value {
@@ -376,9 +515,11 @@
 
 .form-success {
   background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
   border-radius: var(--radius-card);
   padding: var(--spacing-40);
   text-align: center;
+  box-shadow: var(--glow-soft);
 }
 
 .form-success .check-icon {
@@ -390,9 +531,18 @@
 /* Page intro (About / Work / Download headers) ------------------------------ */
 
 .page-intro {
+  position: relative;
   background: var(--color-canvas);
   text-align: center;
-  padding: clamp(56px, 8vw, 96px) var(--page-gutter) clamp(32px, 5vw, 56px);
+  padding: clamp(72px, 10vw, 128px) var(--page-gutter) clamp(40px, 5vw, 64px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.page-intro .hero-aurora {
+  inset: -40% -10% auto;
+  height: 160%;
+  opacity: 0.7;
 }
 
 .page-intro .subheading {
@@ -420,4 +570,70 @@
   color: var(--color-ink-3);
   font-size: var(--text-body-sm);
   line-height: 1.5;
+}
+
+/* Aurora shared scene (hero + page intros) --------------------------------- */
+
+.aurora-scene {
+  position: relative;
+}
+
+/* Marquee3D — signature horizontal-scrub 3D band -------------------------- */
+
+.marquee-band {
+  position: relative;
+  padding: clamp(56px, 8vw, 104px) 0;
+  background: var(--color-canvas);
+  overflow: hidden;
+  perspective: 1400px;
+}
+
+.marquee-stage {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.marquee-head {
+  text-align: center;
+  padding: 0 var(--page-gutter);
+  margin-bottom: var(--spacing-40);
+}
+
+.marquee-viewport {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee-track {
+  display: inline-flex;
+  gap: var(--spacing-16);
+  white-space: nowrap;
+  will-change: transform;
+  padding-left: 6vw;
+}
+
+.marquee-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  border-radius: var(--radius-pill);
+  font-size: clamp(20px, 3vw, 34px);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  box-shadow: var(--glow-soft);
+  transform: translateZ(0);
+}
+
+.marquee-chip:nth-child(3n) {
+  background: var(--grad-brand);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--glow-accent);
+}
+
+.marquee-chip:nth-child(3n + 1) {
+  color: var(--color-decor);
 }

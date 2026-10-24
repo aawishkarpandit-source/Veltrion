@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAsync } from '../../lib/hooks';
 import { getDownloads, getTextBlocks } from '../../lib/content';
 import Reveal from '../ui/Reveal';
+import TiltCard from '../ui/TiltCard';
 import { ArrowIcon } from '../ui/icons';
 
 export default function DownloadsGrid() {
@@ -13,7 +14,7 @@ export default function DownloadsGrid() {
     <section className="section section-canvas">
       <div className="section-inner">
         {list.length === 0 ? (
-          <Reveal className="empty-state">
+          <Reveal className="empty-state" variant="tilt3d">
             <h2 className="heading-sm">{blocks?.['download.empty_title'] ?? 'Our first releases are being prepared.'}</h2>
             <p>{blocks?.['download.empty_text'] ?? ''}</p>
             <Link to="/contact" className="btn btn-filled">
@@ -23,8 +24,8 @@ export default function DownloadsGrid() {
         ) : (
           <div className="grid-2">
             {list.map((item, i) => (
-              <Reveal key={item.id} delay={(i % 2) * 70}>
-                <article className="card">
+              <Reveal key={item.id} delay={(i % 2) * 70} variant="tilt3d">
+                <TiltCard max={4}>
                   {item.cover_url && (
                     <div className="project-media">
                       <img className="product-shot" src={item.cover_url} alt={item.name} loading="lazy" />
@@ -54,7 +55,7 @@ export default function DownloadsGrid() {
                       </a>
                     </div>
                   )}
-                </article>
+                </TiltCard>
               </Reveal>
             ))}
           </div>

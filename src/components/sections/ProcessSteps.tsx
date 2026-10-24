@@ -11,7 +11,8 @@ export default function ProcessSteps() {
   return (
     <section className="section section-canvas">
       <div className="section-inner">
-        <Reveal className="section-head">
+        <Reveal className="section-head" variant="tilt3d">
+          <p className="eyebrow">How we work</p>
           <h2 className="heading">{blocks?.['process.title'] ?? 'How we work.'}</h2>
           {blocks?.['process.subtitle'] && <p className="subheading">{blocks['process.subtitle']}</p>}
         </Reveal>
@@ -19,9 +20,11 @@ export default function ProcessSteps() {
         <ol className="grid-4">
           {(steps ?? []).map((step, i) => (
             <li key={step.id}>
-              <Reveal delay={(i % 4) * 70}>
-                <h3 className="step-title">{step.title}</h3>
-                <p className="step-desc">{step.description}</p>
+              <Reveal delay={(i % 4) * 70} variant="tilt3d">
+                <div className="step">
+                  <h3 className="step-title">{step.title}</h3>
+                  <p className="step-desc">{step.description}</p>
+                </div>
               </Reveal>
             </li>
           ))}

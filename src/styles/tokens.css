@@ -1,7 +1,9 @@
 /* ==========================================================================
-   VELTRION design tokens — from the Refero "Apple design system" style sheet.
-   Light theme follows the sheet exactly; dark theme follows Apple's dark
-   conventions (true black canvas, lifted blues, hairline #333).
+   VELTRION design tokens — elevated "Apple × premium-tech" system.
+   Light theme stays clean and editorial; dark theme goes deep and cinematic
+   (true-black canvas, aurora gradient accents, glass surfaces, glow).
+   The Refero Apple bones (SF Pro scale, 980px pills, 8px cards, hairlines)
+   are preserved — this layer adds depth, light and motion on top.
    ========================================================================== */
 
 :root,
@@ -10,53 +12,84 @@
 
   /* Surfaces */
   --color-canvas: #f5f5f7; /* page background, section default */
-  --color-wash: #f4f8fb; /* light blue-tinted elevated section */
+  --color-wash: #eef2f8; /* light blue-tinted elevated section */
   --color-surface: #ffffff; /* raised tiles on the canvas */
-  --color-surface-2: #e2e2e5; /* filled surfaces, avatar circles */
+  --color-surface-2: #e7e7ec; /* filled surfaces, avatar circles */
   --color-nav: rgba(245, 245, 247, 0.72);
 
   /* Ink */
-  --color-ink: #1d1d1f; /* primary text */
-  --color-ink-2: #333333; /* secondary text, borders */
-  --color-ink-3: #707070; /* muted text, footer links */
+  --color-ink: #17171a; /* primary text */
+  --color-ink-2: #3a3a40; /* secondary text */
+  --color-ink-3: #6b6b73; /* muted text, footer links */
   --color-muted: #86868b; /* quiet notes */
-  --color-hairline: #d2d2d7; /* 1px rules, input borders */
+  --color-hairline: #d8d8de; /* 1px rules, input borders */
 
   /* Action — one color, one job */
   --color-fill: #0071e3; /* filled pill ONLY */
-  --color-fill-hover: color-mix(in srgb, #0071e3 88%, #000);
+  --color-fill-hover: #0077ed;
   --color-link: #0066cc; /* outlined pill, text links */
-  --color-link-hover: color-mix(in srgb, #0066cc 88%, #000);
+  --color-link-hover: #005bb8;
   --color-decor: #2997ff; /* decorative strokes only */
   --color-on-fill: #ffffff;
 
+  /* Gradient accents — hero type, glows, borders */
+  --grad-brand: linear-gradient(120deg, #0a84ff 0%, #5e5ce6 48%, #bf5af2 100%);
+  --grad-text: linear-gradient(115deg, #0071e3 0%, #5e5ce6 55%, #bf5af2 100%);
+  --grad-line: linear-gradient(120deg, rgba(10, 132, 255, 0.55), rgba(191, 90, 242, 0.45));
+  --glow-accent: 0 10px 40px -12px rgba(10, 132, 255, 0.55);
+  --glow-soft: 0 18px 60px -24px rgba(94, 92, 230, 0.45);
+
+  /* Ambient aurora (kept subtle on light so text contrast holds) */
+  --aurora-1: rgba(10, 132, 255, 0.16);
+  --aurora-2: rgba(191, 90, 242, 0.14);
+  --aurora-3: rgba(94, 92, 230, 0.14);
+
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.7);
+
   /* Product-shot grounding shadow — images only, never cards/buttons */
-  --shadow-product: 3px 5px 30px rgba(0, 0, 0, 0.22);
+  --shadow-product: 3px 5px 30px rgba(23, 23, 26, 0.18);
 }
 
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --color-canvas: #000000;
-  --color-wash: #1d1d1f;
-  --color-surface: #1d1d1f;
-  --color-surface-2: #2c2c2e;
-  --color-nav: rgba(0, 0, 0, 0.72);
+  --color-canvas: #050507;
+  --color-wash: #0c0c11;
+  --color-surface: #101015;
+  --color-surface-2: #1b1b22;
+  --color-nav: rgba(5, 5, 7, 0.66);
 
   --color-ink: #f5f5f7;
-  --color-ink-2: #a1a1a6;
-  --color-ink-3: #98989d; /* Apple dark secondary label */
+  --color-ink-2: #b4b4be;
+  --color-ink-3: #98989d;
   --color-muted: #86868b;
-  --color-hairline: #333333;
+  --color-hairline: rgba(255, 255, 255, 0.1);
 
   --color-fill: #0a84ff;
-  --color-fill-hover: color-mix(in srgb, #0a84ff 112%, #fff);
-  --color-link: #2997ff;
-  --color-link-hover: color-mix(in srgb, #2997ff 112%, #fff);
-  --color-decor: #2997ff;
+  --color-fill-hover: #2a93ff;
+  --color-link: #4aa8ff;
+  --color-link-hover: #7cc2ff;
+  --color-decor: #59c0ff;
   --color-on-fill: #ffffff;
 
-  --shadow-product: 3px 5px 30px rgba(0, 0, 0, 0.55);
+  /* Gradient accents pop hard on the deep canvas */
+  --grad-brand: linear-gradient(120deg, #2a93ff 0%, #7b6cff 46%, #d16bff 100%);
+  --grad-text: linear-gradient(115deg, #4aa8ff 0%, #8f7bff 50%, #d16bff 100%);
+  --grad-line: linear-gradient(120deg, rgba(42, 147, 255, 0.7), rgba(209, 107, 255, 0.55));
+  --glow-accent: 0 12px 48px -12px rgba(42, 147, 255, 0.6);
+  --glow-soft: 0 22px 72px -28px rgba(123, 108, 255, 0.6);
+
+  /* Aurora is the hero of the dark theme */
+  --aurora-1: rgba(42, 147, 255, 0.4);
+  --aurora-2: rgba(209, 107, 255, 0.32);
+  --aurora-3: rgba(123, 108, 255, 0.34);
+
+  --glass-bg: rgba(20, 20, 26, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.12);
+
+  --shadow-product: 3px 5px 34px rgba(0, 0, 0, 0.7);
 }
 
 :root {
@@ -65,12 +98,12 @@
     Helvetica, Arial, sans-serif;
   --font-brand: 'Archivo Black', 'Inter', -apple-system, sans-serif;
 
-  /* Type scale — SF Pro scale from the sheet, made fluid for small screens */
-  --text-caption: 13px; /* Apple footnote */
+  /* Type scale — SF Pro scale, fluid for small screens */
+  --text-caption: 13px;
   --leading-caption: 1.33;
   --tracking-caption: -0.01em;
 
-  --text-body-sm: 16px; /* Apple callout — card & supporting copy */
+  --text-body-sm: 16px;
   --leading-body-sm: 1.45;
   --tracking-body-sm: -0.016em;
 
@@ -90,9 +123,9 @@
   --leading-heading: 1.14;
   --tracking-heading: -0.02em;
 
-  --text-display: clamp(36px, 6.6vw, 96px);
-  --leading-display: 1.07;
-  --tracking-display: -0.024em;
+  --text-display: clamp(38px, 6.8vw, 100px);
+  --leading-display: 1.04;
+  --tracking-display: -0.028em;
 
   /* Weights */
   --weight-light: 300;
@@ -111,20 +144,25 @@
   --spacing-56: 56px;
 
   /* Layout */
-  --content-width: 980px; /* text blocks center here */
-  --wide-width: 1180px; /* grids center here */
-  --section-pad-y: clamp(64px, 9vw, 112px);
+  --content-width: 980px;
+  --wide-width: 1180px;
+  --section-pad-y: clamp(64px, 9vw, 116px);
   --page-gutter: clamp(20px, 5vw, 32px);
-  --nav-height: 52px;
+  --nav-height: 56px;
 
-  /* Radius — the only two values in the system */
-  --radius-card: 8px;
+  /* Radius */
+  --radius-card: 14px; /* softened from 8px — reads more premium */
+  --radius-sm: 8px;
   --radius-pill: 980px;
 
   /* Motion */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --duration-press: 140ms;
-  --duration-quick: 180ms;
-  --duration-reveal: 520ms;
+  --duration-quick: 200ms;
+  --duration-reveal: 620ms;
+
+  /* 3D scene */
+  --perspective: 1200px;
+  --scene-depth: 900px;
 }

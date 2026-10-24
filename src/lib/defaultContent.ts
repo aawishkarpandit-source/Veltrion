@@ -5,6 +5,7 @@ import type {
   ContentBullet,
   DownloadItem,
   NavItem,
+  PageSection,
   ProcessStep,
   Project,
   Service,
@@ -354,3 +355,27 @@ export const DEFAULT_TEAM: TeamMember[] = [
 export const DEFAULT_PROJECTS: Project[] = [];
 
 export const DEFAULT_DOWNLOADS: DownloadItem[] = [];
+
+const section = (page: string, key: string, label: string, order: number): PageSection => ({
+  id: `${page}.${key}`,
+  page,
+  label,
+  section_key: key,
+  visible: true,
+  sort_order: order,
+});
+
+export const DEFAULT_PAGE_SECTIONS: PageSection[] = [
+  section('home', 'hero', 'Hero', 10),
+  section('home', 'services', 'Services', 20),
+  section('home', 'process', 'Process', 30),
+  section('home', 'why', 'Why Veltrion', 40),
+  section('about', 'intro', 'Intro', 10),
+  section('about', 'vision', 'Vision & Mission', 20),
+  section('about', 'team', 'Team', 30),
+  section('about', 'who', 'Who we work with', 40),
+  section('work', 'projects', 'Projects', 10),
+  section('download', 'downloads', 'Downloads', 10),
+  section('contact', 'details', 'Contact details', 10),
+  section('contact', 'form', 'Contact form', 20),
+];

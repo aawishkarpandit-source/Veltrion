@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Base — reset, typography, controls
+   Base — reset, typography, controls, premium utilities
    ========================================================================== */
 
 *,
@@ -25,7 +25,8 @@ body {
   font-weight: var(--weight-regular);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  transition: background-color 220ms ease, color 220ms ease;
+  overflow-x: hidden;
+  transition: background-color 300ms ease, color 300ms ease;
 }
 
 h1,
@@ -84,7 +85,7 @@ button {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-fill) 24%, transparent);
+  background: color-mix(in srgb, var(--color-fill) 30%, transparent);
 }
 
 /* Typography helpers ------------------------------------------------------ */
@@ -131,6 +132,35 @@ button {
   color: var(--color-ink-3);
 }
 
+/* Gradient display text — the signature of the elevated system */
+.grad-text {
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-decor);
+  margin-bottom: var(--spacing-20);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--grad-brand);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -143,7 +173,25 @@ button {
   border: 0;
 }
 
-/* Buttons — 980px pills, press feedback ------------------------------- */
+/* Glass surface ------------------------------------------------------------ */
+
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Gradient top-border line (decorative divider) ---------------------------- */
+
+.grad-rule {
+  height: 1px;
+  border: 0;
+  background: var(--grad-line);
+  opacity: 0.6;
+}
+
+/* Buttons — 980px pills, press feedback, glow ------------------------------ */
 
 .btn {
   display: inline-flex;
@@ -151,14 +199,14 @@ button {
   justify-content: center;
   gap: var(--spacing-8);
   border-radius: var(--radius-pill);
-  padding: 11px 20px;
+  padding: 12px 22px;
   font-size: var(--text-body);
   font-weight: var(--weight-regular);
   line-height: 1.2;
-  min-height: 44px;
+  min-height: 46px;
   transition: transform var(--duration-press) var(--ease-out),
     background-color var(--duration-press) ease, border-color var(--duration-press) ease,
-    color var(--duration-press) ease;
+    color var(--duration-press) ease, box-shadow var(--duration-quick) ease;
 }
 
 .btn:active {
@@ -168,30 +216,33 @@ button {
 .btn-filled {
   background: var(--color-fill);
   color: var(--color-on-fill);
+  box-shadow: var(--glow-accent);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .btn-filled:hover {
     background: var(--color-fill-hover);
+    box-shadow: 0 16px 56px -12px rgba(10, 132, 255, 0.7);
   }
 }
 
 .btn-outlined {
-  border: 1px solid var(--color-link);
+  border: 1px solid color-mix(in srgb, var(--color-link) 55%, transparent);
   color: var(--color-link);
   background: transparent;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .btn-outlined:hover {
-    background: color-mix(in srgb, var(--color-link) 8%, transparent);
+    background: color-mix(in srgb, var(--color-link) 10%, transparent);
+    border-color: var(--color-link);
   }
 }
 
 .btn-sm {
-  padding: 8px 16px;
+  padding: 9px 18px;
   font-size: var(--text-body-sm);
-  min-height: 36px;
+  min-height: 38px;
 }
 
 /* Pills / tags ------------------------------------------------------------ */
@@ -200,12 +251,22 @@ button {
   display: inline-flex;
   align-items: center;
   border-radius: var(--radius-pill);
-  padding: 4px 12px;
+  padding: 5px 13px;
   font-size: var(--text-caption);
   letter-spacing: var(--tracking-caption);
   line-height: 1.5;
   color: var(--color-ink-2);
   background: var(--color-surface-2);
+  border: 1px solid transparent;
+  transition: border-color var(--duration-quick) ease, color var(--duration-quick) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a.tag:hover {
+    text-decoration: none;
+    border-color: color-mix(in srgb, var(--color-decor) 55%, transparent);
+    color: var(--color-ink);
+  }
 }
 
 /* Form inputs ------------------------------------------------------------- */
@@ -231,8 +292,8 @@ button {
   color: var(--color-ink);
   background: var(--color-canvas);
   border: 1px solid var(--color-hairline);
-  border-radius: var(--radius-card);
-  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
   transition: border-color var(--duration-press) ease, box-shadow var(--duration-press) ease;
 }
 
@@ -249,7 +310,7 @@ button {
 .select:focus {
   outline: none;
   border-color: var(--color-fill);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-fill) 22%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-fill) 25%, transparent);
 }
 
 .textarea {
@@ -272,6 +333,14 @@ button {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
   .reveal,
   .btn,

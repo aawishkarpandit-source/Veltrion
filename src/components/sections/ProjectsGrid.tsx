@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAsync } from '../../lib/hooks';
 import { getProjects, getTextBlocks } from '../../lib/content';
 import Reveal from '../ui/Reveal';
+import TiltCard from '../ui/TiltCard';
 import { ExternalIcon } from '../ui/icons';
 
 export default function ProjectsGrid() {
@@ -13,7 +14,7 @@ export default function ProjectsGrid() {
     <section className="section section-canvas">
       <div className="section-inner">
         {list.length === 0 ? (
-          <Reveal className="empty-state">
+          <Reveal className="empty-state" variant="tilt3d">
             <h2 className="heading-sm">{blocks?.['work.empty_title'] ?? 'New projects are on the way.'}</h2>
             <p>{blocks?.['work.empty_text'] ?? ''}</p>
             <Link to="/contact" className="btn btn-filled">
@@ -23,8 +24,8 @@ export default function ProjectsGrid() {
         ) : (
           <div className="grid-2">
             {list.map((project, i) => (
-              <Reveal key={project.id} delay={(i % 2) * 70}>
-                <article className="card">
+              <Reveal key={project.id} delay={(i % 2) * 70} variant="tilt3d">
+                <TiltCard max={4}>
                   {project.image_url && (
                     <div className="project-media">
                       <img
@@ -59,7 +60,7 @@ export default function ProjectsGrid() {
                   )}
                   {project.review_quote && (
                     <figure className="review">
-                      <blockquote>“{project.review_quote}”</blockquote>
+                      <blockquote>&ldquo;{project.review_quote}&rdquo;</blockquote>
                       {project.review_author && (
                         <cite>
                           {project.review_author}
@@ -68,7 +69,7 @@ export default function ProjectsGrid() {
                       )}
                     </figure>
                   )}
-                </article>
+                </TiltCard>
               </Reveal>
             ))}
           </div>

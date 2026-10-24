@@ -1,6 +1,8 @@
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAsync } from '../../lib/hooks';
 import { getNavItems, getSettings } from '../../lib/content';
+import { gsap, useScrollScene } from '../../lib/motion';
 
 function currentYear(): string {
   return String(new Date().getFullYear());
@@ -9,6 +11,23 @@ function currentYear(): string {
 export default function Footer() {
   const { data: settings } = useAsync(() => getSettings(), []);
   const { data: footerItems } = useAsync(() => getNavItems('footer'), []);
+  const footerRef = useRef<HTMLElement>(null);
+
+  // 3D wordmark: levels out of a perspective tilt as it scrolls into view.
+  useScrollScene(footerRef, (_ctx, reduced) => {
+    if (reduced) return;
+    gsap.fromTo(
+      '.footer-wordmark',
+      { rotateX: 26, y: 30, opacity: 0.3, transformOrigin: 'center bottom' },
+      {
+        rotateX: 0,
+        y: 0,
+        opacity: 1,
+        ease: 'none',
+        scrollTrigger: { trigger: footerRef.current, start: 'top 92%', end: 'bottom bottom', scrub: 0.8 },
+      },
+    );
+  });
 
   // Until the admin adds dedicated footer links, mirror the main navigation.
   const { data: navItems } = useAsync(() => getNavItems('nav'), []);
@@ -26,11 +45,13 @@ export default function Footer() {
   const groupTitle = (group: string) => (group === 'links' || group === 'main' ? 'Explore' : group);
 
   return (
-    <footer className="footer">
+    <footer ref={footerRef} className="footer">
       <div className="footer-inner">
-        <Link to="/" className="footer-wordmark" aria-label="VELTRION — home">
-          VELTRION
-        </Link>
+        <div style={{ perspective: '1200px' }}>
+          <Link to="/" className="footer-wordmark" aria-label="VELTRION — home">
+            VELTRION
+          </Link>
+        </div>
 
         <div className="footer-cols">
           {Array.from(groups.entries()).map(([group, groupLinks]) => (

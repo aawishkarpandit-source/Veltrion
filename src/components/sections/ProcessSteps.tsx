@@ -2,6 +2,7 @@ import { useAsync } from '../../lib/hooks';
 import { getProcess, getProcessBullets, getTextBlocks } from '../../lib/content';
 import Reveal from '../ui/Reveal';
 import { CheckIcon } from '../ui/icons';
+import TiltCard from '../ui/TiltCard';
 
 export default function ProcessSteps() {
   const { data: steps } = useAsync(() => getProcess(), []);
@@ -21,10 +22,12 @@ export default function ProcessSteps() {
           {(steps ?? []).map((step, i) => (
             <li key={step.id}>
               <Reveal delay={(i % 4) * 70} variant="tilt3d">
+              <TiltCard>
                 <div className="step">
                   <h3 className="step-title">{step.title}</h3>
                   <p className="step-desc">{step.description}</p>
                 </div>
+              </TiltCard>
               </Reveal>
             </li>
           ))}

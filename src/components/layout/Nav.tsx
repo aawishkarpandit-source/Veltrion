@@ -37,10 +37,7 @@ export default function Nav() {
 
         <nav className="nav-links" aria-label="Main">
           {(items ?? []).map((item) => (
-            <NavLink key={item.href} to={item.href} end={item.href === '/'} className="nav-link" onClick={(e) => {
-        e.preventDefault();
-        window.location.href = item.href;
-      }}>
+            <NavLink key={item.href} to={item.href} end={item.href === '/'} className="nav-link">
               {item.label}
             </NavLink>
           ))}

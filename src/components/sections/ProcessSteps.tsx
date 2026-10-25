@@ -23,6 +23,9 @@ export default function ProcessSteps() {
             <li key={step.id}>
               <Reveal delay={(i % 4) * 70} variant="tilt3d">
               <TiltCard>
+                <span className="card-num" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
                 <div className="step">
                   <h3 className="step-title">{step.title}</h3>
                   <p className="step-desc">{step.description}</p>

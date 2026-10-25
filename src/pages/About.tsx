@@ -12,7 +12,7 @@ export default function About() {
     intro: (
       <PageHeader
         eyebrow="About us"
-        title="About Us."
+        title=""
         subtitle={blocks?.['about.intro'] ?? ''}
       />
     ),

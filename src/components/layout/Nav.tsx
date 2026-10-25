@@ -47,7 +47,10 @@ export default function Nav() {
           <button
             type="button"
             className="theme-toggle"
-            onClick={toggle}
+            onClick={() => {
+             toggle();
+              window.location.reload();
+            }}
             aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
           >
             {dark ? <SunIcon /> : <MoonIcon />}

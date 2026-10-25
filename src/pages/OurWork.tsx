@@ -15,7 +15,7 @@ export default function OurWork() {
     <>
       <PageHeader
         eyebrow="Our work"
-        title={blocks?.['work.title'] ?? 'Loading....'}
+        title={blocks?.['work.title'] ?? ''}
         subtitle={blocks?.['work.subtitle'] ?? 'Loading....'}
       />
       <PageSections page="work" sections={sections} />

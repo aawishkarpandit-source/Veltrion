@@ -63,7 +63,7 @@ export default function Contact() {
     <>
       <PageHeader
         eyebrow="Contact"
-        title={blocks?.['contact.title'] ?? 'Loading....'}
+        title={blocks?.['contact.title'] ?? ''}
         subtitle={blocks?.['contact.subtitle'] ?? 'Loading....'}
       />
       <section className="section section-canvas">

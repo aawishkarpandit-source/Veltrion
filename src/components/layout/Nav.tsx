@@ -37,7 +37,10 @@ export default function Nav() {
 
         <nav className="nav-links" aria-label="Main">
           {(items ?? []).map((item) => (
-            <NavLink key={item.href} to={item.href} end={item.href === '/'} className="nav-link">
+            <NavLink key={item.href} to={item.href} end={item.href === '/'} className="nav-link" onClick={(e) => {
+        e.preventDefault();
+        window.location.href = item.href;
+      }}>
               {item.label}
             </NavLink>
           ))}
@@ -70,7 +73,10 @@ export default function Nav() {
       {open && (
         <nav className="menu-panel menu-fade" aria-label="Mobile">
           {(items ?? []).map((item) => (
-            <NavLink key={item.href} to={item.href} end={item.href === '/'} className="nav-link">
+            <NavLink key={item.href} to={item.href} end={item.href === '/'} className="nav-link" onClick={(e) => {
+        e.preventDefault();
+        window.location.href = item.href;
+      }}>
               {item.label}
             </NavLink>
           ))}

@@ -64,7 +64,10 @@ export default function Footer() {
               <h2 className="footer-col-title">{groupTitle(group)}</h2>
               {groupLinks.map((item) =>
                 isInternal(item.href) ? (
-                  <Link key={item.id} to={item.href}>
+                  <Link key={item.id} to={item.href} onClick={(e) => {
+        e.preventDefault();
+        window.location.href = item.href;
+      }}>
                     {item.label}
                   </Link>
                 ) : (

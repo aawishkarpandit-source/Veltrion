@@ -63,8 +63,8 @@ export default function Contact() {
     <>
       <PageHeader
         eyebrow="Contact"
-        title={blocks?.['contact.title'] ?? 'Contact us.'}
-        subtitle={blocks?.['contact.subtitle'] ?? ''}
+        title={blocks?.['contact.title'] ?? 'Loading....'}
+        subtitle={blocks?.['contact.subtitle'] ?? 'Loading....'}
       />
       <section className="section section-canvas">
         <div className="contact-grid">

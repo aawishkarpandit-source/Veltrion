@@ -15,8 +15,8 @@ export default function Download() {
     <>
       <PageHeader
         eyebrow="Download"
-        title={blocks?.['download.title'] ?? 'Download.'}
-        subtitle={blocks?.['download.subtitle'] ?? ''}
+        title={blocks?.['download.title'] ?? 'Loading....'}
+        subtitle={blocks?.['download.subtitle'] ?? 'Loading....'}
       />
       <PageSections page="download" sections={sections} />
     </>

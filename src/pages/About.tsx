@@ -13,7 +13,7 @@ export default function About() {
       <PageHeader
         eyebrow="About us"
         title=""
-        subtitle={blocks?.['about.intro'] ?? ''}
+        subtitle={blocks?.['about.intro'] ?? 'Loading....'}
       />
     ),
     vision: (

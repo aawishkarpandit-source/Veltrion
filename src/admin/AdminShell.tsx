@@ -1,15 +1,113 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { requireClient } from './adminData';
+import { claimAdmin, checkAccess, fetchMessages, friendlyDbError, requireClient, type AccessInfo } from './adminData';
 import { COLLECTIONS } from './collections';
-import { fetchMessages } from './adminData';
+
+/**
+ * Banner shown when the signed-in account can't write (the classic
+ * "nothing saves" RLS case). Offers the one-click self-heal from 0006 or
+ * the exact SQL instead of leaving silent no-op saves.
+ */
+function AccessBanner({ access }: { access: AccessInfo | null }) {
+  const [fixing, setFixing] = useState(false);
+  const [failure, setFailure] = useState('');
+  const [email, setEmail] = useState('');
+
+  useEffect(() => {
+    requireClient()
+      .auth.getSession()
+      .then(({ data }) => setEmail(data.session?.user?.email ?? ''))
+      .catch(() => {});
+  }, []);
+
+  async function fix() {
+    setFixing(true);
+    setFailure('');
+    try {
+      const result = await claimAdmin();
+      if (result === false) {
+        setFailure('The claim was refused because an admin already exists — reload and sign in with that account instead.');
+        setFixing(false);
+        return;
+      }
+      window.location.reload();
+    } catch (err) {
+      setFailure(friendlyDbError(err));
+      setFixing(false);
+    }
+  }
+
+  const promoteSql = `insert into public.admin_users (id, email)\nselect id, email from auth.users\nwhere email = '${email || 'your-admin-email'}'\non conflict (id) do nothing;`;
+
+  let title: string;
+  let body: ReactNode;
+  if (access === null) {
+    title = 'Saves are blocked — run migration 0006';
+    body = (
+      <>
+        Your account isn't confirmed as an admin, so every edit is a silent no-op. Run{' '}
+        <code>supabase/migrations/0006_admin_access.sql</code> in the Supabase SQL editor — it promotes the
+        existing account(s), adds this one-click fix and clear save errors.
+      </>
+    );
+  } else if (access.isAdmin) {
+    return null;
+  } else if (access.adminCount === 0) {
+    title = 'Saves are blocked — claim admin access';
+    body = (
+      <>
+        You're signed in, but nobody on this project has admin rights yet — Supabase is rejecting every
+        write. Claim it with one click:
+      </>
+    );
+  } else {
+    title = "Saves are blocked — this account isn't an admin";
+    body = (
+      <>
+        The admin rights belong to a different account. Sign in with that one, or promote this account by
+        running the SQL from Supabase &gt; SQL editor:
+      </>
+    );
+  }
+
+  return (
+    <div className="admin-banner" role="alert">
+      <div className="admin-banner-text">
+        <strong>{title}</strong>
+        <p>
+          {body}
+          {failure && <span className="admin-error"> {failure}</span>}
+        </p>
+        {access !== null && !access.isAdmin && access.adminCount !== 0 && (
+          <details>
+            <summary>Show SQL</summary>
+            <pre>{promoteSql}</pre>
+          </details>
+        )}
+      </div>
+      {access !== null && access.adminCount === 0 && (
+        <button className="abtn abtn-primary" type="button" onClick={fix} disabled={fixing}>
+          {fixing ? 'Fixing…' : 'Fix access'}
+        </button>
+      )}
+    </div>
+  );
+}
 
 export default function AdminShell() {
   const navigate = useNavigate();
   const [unread, setUnread] = useState(0);
+  const [access, setAccess] = useState<AccessInfo | null>(null);
 
   useEffect(() => {
     let alive = true;
+    // Who can write? Drives the access banner (silent RLS no-ops otherwise).
+    checkAccess()
+      .then((info) => {
+        if (alive) setAccess(info);
+      })
+      .catch(() => {});
+
     fetchMessages()
       .then((rows) => {
         if (alive) setUnread(rows.filter((row) => !row.read).length);
@@ -32,8 +130,8 @@ export default function AdminShell() {
     <div className="admin-shell">
       <aside className="admin-side">
         <div className="admin-side-brand">
-          <img src="/logo/full-size-logo-no-text.png" alt="" />
-          <span style={{ fontSize: 12, color: '#86868b' }}>admin</span>
+          <img src="/logo/brand-dark.png" alt="VELTRION" />
+          <span className="admin-side-tag">admin</span>
         </div>
 
         <NavLink to="/admin" end className={({ isActive }) => (isActive ? 'active' : '')}>
@@ -66,7 +164,7 @@ export default function AdminShell() {
           Settings
         </NavLink>
 
-        <div style={{ marginTop: 'auto', padding: '12px 12px 0' }}>
+        <div className="admin-side-foot">
           <a
             href="/"
             onClick={(e) => {
@@ -89,6 +187,7 @@ export default function AdminShell() {
       </aside>
 
       <main className="admin-main">
+        {access === null || !access.isAdmin ? <AccessBanner access={access} /> : null}
         <Outlet />
       </main>
     </div>

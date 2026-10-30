@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { listMedia, uploadMedia, deleteMedia, type MediaFile } from './adminData';
+import { listMedia, uploadMedia, deleteMedia, friendlyDbError, type MediaFile } from './adminData';
 
 interface Props {
   value: string;
@@ -21,7 +21,7 @@ export default function MediaPicker({ value, onChange, label }: Props) {
     setError('');
     listMedia()
       .then(setFiles)
-      .catch((err: unknown) => setError(err instanceof Error ? err.message : 'Could not load media.'))
+      .catch((err: unknown) => setError(friendlyDbError(err)))
       .finally(() => setLoading(false));
   }, [open]);
 
@@ -36,7 +36,7 @@ export default function MediaPicker({ value, onChange, label }: Props) {
         onChange(uploaded.url);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Upload failed.');
+      setError(friendlyDbError(err));
     } finally {
       setUploading(false);
     }
@@ -48,7 +48,7 @@ export default function MediaPicker({ value, onChange, label }: Props) {
       await deleteMedia(name);
       setFiles((prev) => prev.filter((file) => file.name !== name));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Delete failed.');
+      setError(friendlyDbError(err));
     }
   }
 

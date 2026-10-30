@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { COLLECTIONS } from '../collections';
-import { deleteRow, fetchAll, updateRow, type Row } from '../adminData';
+import { deleteRow, fetchAll, friendlyDbError, updateRow, type Row } from '../adminData';
 import { ArrowDownIcon, ArrowUpIcon, TrashIcon } from '../../components/ui/icons';
 
 export default function CollectionList() {
@@ -17,7 +17,7 @@ export default function CollectionList() {
     setError('');
     fetchAll(def.table)
       .then(setRows)
-      .catch((err) => setError(err instanceof Error ? err.message : 'Could not load.'))
+      .catch((err) => setError(friendlyDbError(err)))
       .finally(() => setLoading(false));
   }, [def]);
 
@@ -39,7 +39,7 @@ export default function CollectionList() {
       await updateRow(def.table, a.id, { sort_order: bOrder });
       await updateRow(def.table, b.id, { sort_order: aOrder });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Reorder failed.');
+      setError(friendlyDbError(err));
       setRows(rows);
     }
   }
@@ -50,7 +50,7 @@ export default function CollectionList() {
     try {
       await updateRow(def.table, row.id, { published: nextValue });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Update failed.');
+      setError(friendlyDbError(err));
       setRows(rows);
     }
   }
@@ -61,7 +61,7 @@ export default function CollectionList() {
       await deleteRow(def.table, row.id);
       setRows((prev) => prev.filter((r) => r.id !== row.id));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Delete failed.');
+      setError(friendlyDbError(err));
     }
   }
 

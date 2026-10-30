@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { requireClient, touchContent, type Row } from '../adminData';
+import { requireClient, friendlyDbError, touchContent, type Row } from '../adminData';
 import { ArrowDownIcon, ArrowUpIcon } from '../../components/ui/icons';
 
 const PAGES = [
@@ -31,7 +31,7 @@ export default function PageSectionsPage() {
       if (error) throw error;
       setRows((data as Row[]) ?? []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load sections.');
+      setError(friendlyDbError(err));
     } finally {
       setLoading(false);
     }
@@ -56,7 +56,7 @@ export default function PageSectionsPage() {
       touchContent();
       flashSaved();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Update failed.');
+      setError(friendlyDbError(err));
       load();
     }
   }
@@ -84,7 +84,7 @@ export default function PageSectionsPage() {
       touchContent();
       flashSaved();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Reorder failed.');
+      setError(friendlyDbError(err));
       load();
     } finally {
       setSaving(false);

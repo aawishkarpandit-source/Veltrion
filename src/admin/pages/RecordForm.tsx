@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { COLLECTIONS } from '../collections';
-import { fetchOne, insertRow, updateRow, type Row } from '../adminData';
+import { fetchOne, friendlyDbError, insertRow, updateRow, type Row } from '../adminData';
 import type { FieldDef } from '../collections';
 import MediaPicker from '../MediaPicker';
 
@@ -140,7 +140,7 @@ export default function RecordForm() {
     }
     fetchOne(def.table, id)
       .then((row) => setValues(toFormValues(def, row)))
-      .catch((err) => setError(err instanceof Error ? err.message : 'Could not load.'));
+      .catch((err) => setError(friendlyDbError(err)));
   }, [def, id, isNew]);
 
   if (!def) return <p className="admin-error">Unknown collection.</p>;
@@ -156,7 +156,7 @@ export default function RecordForm() {
       else await updateRow(def!.table, id!, row);
       navigate(`/admin/c/${collection}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Save failed.');
+      setError(friendlyDbError(err));
     } finally {
       setSaving(false);
     }

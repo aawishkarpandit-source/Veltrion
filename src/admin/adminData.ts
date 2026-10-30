@@ -17,6 +17,87 @@ export function touchContent(): void {
 }
 
 // ---------------------------------------------------------------------------
+// Access (who is allowed to write) + error translation
+// ---------------------------------------------------------------------------
+
+export interface AccessInfo {
+  /** The signed-in user is on the admin_users list. */
+  isAdmin: boolean;
+  /** Total admins, or null when unknown. */
+  adminCount: number | null;
+}
+
+/**
+ * Ask the database who can edit. Calls the `admin_access_check` RPC from
+ * 0006_admin_access.sql — returns null if that migration wasn't run yet.
+ */
+export async function checkAccess(): Promise<AccessInfo | null> {
+  const supabase = requireClient();
+  const { data, error } = await supabase.rpc('admin_access_check');
+  if (error) {
+    // Missing RPC = migration 0006 not applied yet; callers treat null as "unknown".
+    if (isMissingRpc(error)) return null;
+    throw error;
+  }
+  const row = (Array.isArray(data) ? data[0] : data) as
+    | { is_admin?: boolean | string; admin_count?: number | string }
+    | undefined;
+  if (!row) return null;
+  return {
+    isAdmin: row.is_admin === true || row.is_admin === 'true',
+    adminCount: row.admin_count == null ? null : Number(row.admin_count),
+  };
+}
+
+/**
+ * One-click fix for "signed in but nothing saves": claims admin ownership
+ * with the `claim_admin` RPC (0006). Only works while NO admin exists —
+ * the first signed-in account claims it, later accounts must be promoted
+ * from SQL (the Dashboard shows the snippet). Returns:
+ *   true  → claimed / was already admin
+ *   false → claimed blocked because an admin already exists
+ *   null  → RPC missing (0006 not run)
+ */
+export async function claimAdmin(): Promise<boolean | null> {
+  const supabase = requireClient();
+  const { data, error } = await supabase.rpc('claim_admin');
+  if (error) {
+    if (isMissingRpc(error)) return null;
+    throw error;
+  }
+  return Boolean(data);
+}
+
+function isMissingRpc(err: { code?: string; message?: string }): boolean {
+  return err.code === 'PGRST202' || /function .* is not defined|Could not find the function/i.test(err.message ?? '');
+}
+
+/**
+ * Translate scary PostgREST/RLS errors into what they actually mean for
+ * this admin. RLS blocks are the classic "nothing saves" case: Supabase
+ * returns success with 0 rows for updates the policy filters out.
+ */
+export function friendlyDbError(err: unknown): string {
+  const e = err as { code?: string; message?: string } | undefined;
+  const code = e?.code ?? '';
+  const msg = e?.message ?? String(err ?? 'Something went wrong.');
+
+  if (code === '42501' || /row-level security/i.test(msg)) {
+    return "Blocked — this account doesn't have write access. Use Fix access above, or sign in with the admin account.";
+  }
+  if (code === '401' || code === 'PGRST301' || /jwt|session expired/i.test(msg)) {
+    return 'Your session expired — sign out and back in.';
+  }
+  if (code === 'PGRST205' || /does not exist in the schema cache|Could not find the table/i.test(msg)) {
+    return 'A table is missing from the database — run the pending migration file(s) in supabase/migrations/ in the Supabase SQL editor.';
+  }
+  if (code.startsWith('23')) {
+    return 'The database rejected these values — check required fields and formats.';
+  }
+  return msg;
+}
+
+// ---------------------------------------------------------------------------
 // Generic CRUD
 // ---------------------------------------------------------------------------
 

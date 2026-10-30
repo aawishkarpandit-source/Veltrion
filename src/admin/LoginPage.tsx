@@ -48,7 +48,7 @@ export default function LoginPage({ needsConfiguration }: Props) {
   return (
     <div className="admin-login">
       <form className="admin-login-card" onSubmit={signIn}>
-        <img src="/logo/full-size-logo-no-text.png" alt="" />
+        <img src="/logo/brand-light.png" alt="VELTRION" />
         <h1>VELTRION admin</h1>
         <p>Sign in to edit the website content.</p>
 

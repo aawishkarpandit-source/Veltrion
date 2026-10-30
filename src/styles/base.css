@@ -12,6 +12,9 @@ html {
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* No rubber-band/pull-to-refresh on the app-like site and the admin —
+     inner scroll areas own their overscroll (skill: mobile-native). */
+  overscroll-behavior-y: none;
 }
 
 body {

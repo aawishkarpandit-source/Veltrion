@@ -1,43 +1,111 @@
 /* ==========================================================================
-   Admin — quiet app screens: small labels, hairlines, panels
+   Admin — VELTRION green, quiet app screens.
+   Anchored on the same token system as the public site: green-tinted
+   neutrals, deep-green actions, luminous emerald on the near-black rail.
+   Mobile-native: safe areas, dvh, 40px targets, no tap flash, scrollable
+   top nav, full-screen pickers.
    ========================================================================== */
+
+:root {
+  --acanvas: #f6f8f7;
+  --apanel: #ffffff;
+  --ahair: #dce3de;
+  --ahair-soft: #e8ede9;
+  --aink: #141815;
+  --aink-2: #333936;
+  --amuted: #646966;
+  --afaint: #8a938c;
+  --agreen: #00873f;
+  --agreen-hover: #00753a;
+  --agreen-soft: #e9f6ef;
+  --agreen-line: #bfe6cf;
+  --adot: #00a854;
+  --adot-off: #98a29b;
+  --asidebar: #0b100d;
+  --asidebar-2: #151d17;
+  --asidebar-ink: #aab5ae;
+  --aglow: 0 10px 40px -12px rgba(0, 168, 92, 0.5);
+}
 
 .admin-root {
   min-height: 100vh;
-  background: #f5f5f7;
-  color: #1d1d1f;
+  min-height: 100dvh;
+  background: var(--acanvas);
+  color: var(--aink);
   font-size: 14px;
   letter-spacing: -0.016em;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .admin-root a {
-  color: #007a3d;
+  color: var(--agreen);
+}
+
+/* Buttons keep their own colors — the generic link green loses here. */
+.admin-root a.abtn {
+  color: var(--aink);
+}
+
+.admin-root a.abtn-primary {
+  color: #fff;
+}
+
+.admin-root a.abtn-danger {
+  color: #d70015;
+}
+
+/* Controls: instant touch feedback, no sticky hover, no text capture ------- */
+
+.admin-root button,
+.admin-root a,
+.admin-root .abtn,
+.admin-root .inbox-item {
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.admin-root a,
+.admin-root button {
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease,
+    box-shadow 120ms ease, transform 120ms ease;
+}
+
+.admin-root :focus-visible {
+  outline: 2px solid rgba(0, 168, 92, 0.55);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
 
 /* Login ------------------------------------------------------------------ */
 
 .admin-login {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
+  padding-top: calc(24px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   /* Independent of the public theme — the login card is always light. */
   color-scheme: light;
-  color: #1d1d1f;
+  color: var(--aink);
 }
 
 .admin-login-card {
   width: 100%;
   max-width: 380px;
-  background: #fff;
-  border: 1px solid #d2d2d7;
-  border-radius: 8px;
+  background: var(--apanel);
+  border: 1px solid var(--ahair);
+  border-radius: 14px;
   padding: 32px;
+  box-shadow: 0 24px 60px -32px rgba(11, 16, 13, 0.35);
 }
 
 .admin-login-card img {
-  height: 24px;
+  height: 26px;
+  width: auto;
   margin-bottom: 24px;
 }
 
@@ -46,11 +114,11 @@
   font-weight: 600;
   letter-spacing: -0.014em;
   margin-bottom: 4px;
-  color: #1d1d1f;
+  color: var(--aink);
 }
 
 .admin-login-card p {
-  color: #707070;
+  color: var(--amuted);
   margin-bottom: 24px;
 }
 
@@ -59,15 +127,16 @@
 }
 
 .admin-login-card .field-label {
-  color: #333333;
+  color: var(--aink-2);
 }
 
 .admin-login-card .input {
-  background: #fff;
-  color: #1d1d1f;
+  background: var(--apanel);
+  color: var(--aink);
 }
 
-.admin-login-card .btn {
+.admin-login-card .btn,
+.admin-login-card .abtn-primary {
   width: 100%;
   margin-top: 8px;
 }
@@ -77,30 +146,32 @@
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: #707070;
+  color: var(--amuted);
 }
 
 /* Shell ------------------------------------------------------------------ */
 
 .admin-shell {
   display: grid;
-  grid-template-columns: 232px 1fr;
+  grid-template-columns: 240px 1fr;
   min-height: 100vh;
-}
-
-@media (max-width: 820px) {
-  .admin-shell {
-    grid-template-columns: 1fr;
-  }
+  min-height: 100dvh;
+  align-items: stretch;
 }
 
 .admin-side {
-  background: #1d1d1f;
-  color: #f5f5f7;
+  background: var(--asidebar);
+  color: var(--asidebar-ink);
   padding: 20px 12px;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   gap: 2px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
 }
 
 .admin-side-brand {
@@ -111,36 +182,40 @@
 }
 
 .admin-side-brand img {
-  height: 18px;
-  filter: invert(1) hue-rotate(180deg);
+  height: 15px;
+  width: auto;
+}
+
+.admin-side-tag {
+  font-size: 11px;
+  color: #6c7770;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .admin-side-title {
-  font-size: 12px;
-  color: #86868b;
-  padding: 12px 12px 4px;
+  font-size: 11px;
+  color: #5f6a63;
+  padding: 14px 12px 4px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .admin-side a {
-  color: #d2d2d7;
+  color: var(--asidebar-ink);
   padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 13px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-}
-
-.admin-side a:hover {
-  background: #2c2c2e;
-  text-decoration: none;
-  color: #fff;
+  min-height: 36px;
 }
 
 .admin-side a.active {
-  background: #2c2c2e;
-  color: #fff;
+  background: var(--asidebar-2);
+  color: #3fd985;
   font-weight: 600;
 }
 
@@ -150,11 +225,34 @@
   border-radius: 980px;
   font-size: 11px;
   padding: 1px 7px;
+  font-weight: 600;
+}
+
+.admin-side-foot {
+  margin-top: auto;
+  padding: 12px 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-side-foot a {
+  color: #7f8a83;
+  font-size: 13px;
+  min-height: 0;
+  padding: 4px 0;
+}
+
+.admin-side-foot a:hover {
+  color: #c6d0c9;
+  text-decoration: none;
 }
 
 .admin-main {
   padding: 28px 32px 64px;
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   max-width: 1080px;
+  min-width: 0;
 }
 
 .admin-head {
@@ -170,10 +268,11 @@
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.016em;
+  color: var(--aink);
 }
 
 .admin-head p {
-  color: #707070;
+  color: var(--amuted);
   font-size: 13px;
   margin-top: 2px;
 }
@@ -184,47 +283,107 @@
   flex-wrap: wrap;
 }
 
+/* Access banner ----------------------------------------------------------- */
+
+.admin-banner {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: var(--agreen-soft);
+  border: 1px solid var(--agreen-line);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+
+.admin-banner-text {
+  min-width: 240px;
+  flex: 1;
+}
+
+.admin-banner-text strong {
+  display: block;
+  color: #144d2c;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.admin-banner-text p {
+  color: #2c503b;
+  font-size: 13px;
+  margin: 0;
+}
+
+.admin-banner-text details {
+  margin-top: 8px;
+}
+
+.admin-banner-text summary {
+  cursor: pointer;
+  color: var(--agreen);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-banner-text pre {
+  background: #10261a;
+  color: #9af0c0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 8px 0 0;
+}
+
 /* Admin buttons (app controls, not marketing pills) ----------------------- */
 
 .abtn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  border: 1px solid #d2d2d7;
-  background: #fff;
-  color: #1d1d1f;
+  border: 1px solid var(--ahair);
+  background: var(--apanel);
+  color: var(--aink);
   border-radius: 8px;
-  padding: 7px 12px;
+  padding: 8px 14px;
   font-size: 13px;
-  min-height: 34px;
-  transition: background-color 120ms ease, transform 120ms ease;
+  min-height: 40px;
 }
 
 .abtn:active {
   transform: scale(0.98);
+  background: #f0f4f1;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .abtn:hover {
-    background: #f5f5f7;
+    background: #f3f7f4;
+    border-color: #cdd8d1;
   }
 }
 
 .abtn-primary {
-  background: #00873f;
-  border-color: #00873f;
+  background: var(--agreen);
+  border-color: var(--agreen);
   color: #fff;
+  box-shadow: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .abtn-primary:hover {
-    background: #00753a;
+    background: var(--agreen-hover);
+    border-color: var(--agreen-hover);
+    box-shadow: var(--aglow);
   }
 }
 
 .abtn-danger {
   color: #d70015;
-  border-color: #d7001522;
+  border-color: rgba(215, 0, 21, 0.15);
 }
 
 .abtn:disabled {
@@ -233,15 +392,16 @@
 }
 
 .abtn-icon {
-  padding: 7px 8px;
+  padding: 8px 9px;
 }
 
 /* Panels & tables --------------------------------------------------------- */
 
 .apanel {
-  background: #fff;
-  border: 1px solid #d2d2d7;
-  border-radius: 8px;
+  background: var(--apanel);
+  border: 1px solid var(--ahair);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .apanel-pad {
@@ -258,14 +418,14 @@
   text-align: left;
   font-size: 12px;
   font-weight: 600;
-  color: #707070;
+  color: var(--amuted);
   padding: 10px 16px;
-  border-bottom: 1px solid #e2e2e5;
+  border-bottom: 1px solid var(--ahair-soft);
 }
 
 .atable td {
   padding: 12px 16px;
-  border-bottom: 1px solid #f0f0f2;
+  border-bottom: 1px solid var(--ahair-soft);
   vertical-align: middle;
 }
 
@@ -280,10 +440,11 @@
 
 .atable .row-title {
   font-weight: 600;
+  color: var(--aink);
 }
 
 .atable .row-sub {
-  color: #707070;
+  color: var(--amuted);
   font-size: 12px;
   margin-top: 2px;
   max-width: 480px;
@@ -297,12 +458,58 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #30d158;
+  background: var(--adot);
   margin-right: 6px;
+  box-shadow: 0 0 0 3px rgba(0, 168, 84, 0.12);
 }
 
 .status-dot.off {
-  background: #8e8e93;
+  background: var(--adot-off);
+  box-shadow: none;
+}
+
+/* Text blocks -------------------------------------------------------------- */
+
+.admin-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--amuted);
+  margin: 0 0 8px 4px;
+  text-transform: capitalize;
+}
+
+.ablock {
+  padding: 16px;
+  border-bottom: 1px solid var(--ahair-soft);
+}
+
+.ablock:last-child {
+  border-bottom: 0;
+}
+
+.ablock-label {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--aink-2);
+}
+
+.ablock-label span {
+  color: var(--afaint);
+  font-weight: 400;
+}
+
+.ablock-foot {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.asaved {
+  color: var(--agreen);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 /* Admin form -------------------------------------------------------------- */
@@ -315,15 +522,24 @@
 
 .aform .field-label {
   font-size: 12px;
-  color: #707070;
+  color: var(--aink-2);
 }
 
 .aform .input,
 .aform .textarea,
 .aform .select {
-  background: #fff;
-  border-color: #d2d2d7;
-  font-size: 16px; /* ≥16px on touch — prevents iOS zoom */
+  background: var(--apanel);
+  border-color: var(--ahair);
+  color: var(--aink);
+  font-size: 16px; /* ≥16px on touch — prevents iOS focus zoom */
+}
+
+.aform .input:focus,
+.aform .textarea:focus,
+.aform .select:focus {
+  border-color: var(--agreen);
+  box-shadow: 0 0 0 3px rgba(0, 168, 92, 0.18);
+  outline: none;
 }
 
 .aform-row {
@@ -342,12 +558,19 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
+  min-height: 40px; /* comfortable touch target */
+}
+
+.aform-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--agreen);
 }
 
 .aform-help {
   font-size: 12px;
-  color: #707070;
-  margin-top: 4px;
+  color: var(--amuted);
+  margin-top: 6px;
 }
 
 .aform-foot {
@@ -362,15 +585,15 @@
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
   margin-bottom: 24px;
 }
 
 .stat {
-  background: #fff;
-  border: 1px solid #d2d2d7;
-  border-radius: 8px;
+  background: var(--apanel);
+  border: 1px solid var(--ahair);
+  border-radius: 12px;
   padding: 16px;
 }
 
@@ -378,11 +601,29 @@
   font-size: 28px;
   font-weight: 600;
   letter-spacing: -0.016em;
+  color: var(--aink);
 }
 
 .stat-label {
   font-size: 12px;
-  color: #707070;
+  color: var(--amuted);
+}
+
+.astat-link {
+  display: block;
+  text-decoration: none;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .astat-link:hover {
+    border-color: var(--agreen-line);
+    background: var(--agreen-soft);
+  }
+}
+
+.astat-link:active {
+  transform: scale(0.98);
 }
 
 /* Media library ----------------------------------------------------------- */
@@ -394,24 +635,25 @@
 }
 
 .media-item {
-  border: 1px solid #d2d2d7;
-  border-radius: 8px;
+  border: 1px solid var(--ahair);
+  border-radius: 10px;
   overflow: hidden;
-  background: #fff;
+  background: var(--apanel);
 }
 
 .media-item img {
   width: 100%;
   height: 96px;
   object-fit: cover;
-  background: #f5f5f7;
+  background: #eef3ef;
   display: block;
+  cursor: pointer;
 }
 
 .media-item-meta {
   padding: 8px;
   font-size: 11px;
-  color: #707070;
+  color: var(--amuted);
   word-break: break-all;
   max-height: 44px;
   overflow: hidden;
@@ -427,7 +669,7 @@
 .media-picker-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(5, 8, 7, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -436,13 +678,14 @@
 }
 
 .media-picker {
-  background: #fff;
-  border-radius: 8px;
+  background: var(--apanel);
+  border-radius: 14px;
   width: min(720px, 100%);
-  max-height: 80vh;
+  max-height: min(80dvh, 720px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: 0 40px 90px -30px rgba(5, 8, 7, 0.5);
 }
 
 .media-picker-head {
@@ -450,12 +693,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  border-bottom: 1px solid #e2e2e5;
+  border-bottom: 1px solid var(--ahair-soft);
 }
 
 .media-picker-body {
   padding: 20px;
   overflow: auto;
+  overscroll-behavior: contain;
 }
 
 /* Inbox ------------------------------------------------------------------- */
@@ -467,16 +711,10 @@
   align-items: start;
 }
 
-@media (max-width: 820px) {
-  .inbox {
-    grid-template-columns: 1fr;
-  }
-}
-
 .inbox-list {
-  background: #fff;
-  border: 1px solid #d2d2d7;
-  border-radius: 8px;
+  background: var(--apanel);
+  border: 1px solid var(--ahair);
+  border-radius: 12px;
   overflow: hidden;
 }
 
@@ -485,16 +723,19 @@
   width: 100%;
   text-align: left;
   padding: 12px 16px;
-  border-bottom: 1px solid #f0f0f2;
-  transition: background-color 120ms ease;
+  border-bottom: 1px solid var(--ahair-soft);
+  background: var(--apanel);
+  font: inherit;
+  min-height: 52px;
 }
 
 .inbox-item:hover {
-  background: #f5f5f7;
+  background: #f3f7f4;
 }
 
 .inbox-item.active {
-  background: #f0f5ff;
+  background: var(--agreen-soft);
+  box-shadow: inset 2px 0 0 var(--agreen);
 }
 
 .inbox-item .who {
@@ -503,17 +744,23 @@
   display: flex;
   justify-content: space-between;
   gap: 8px;
+  color: var(--aink);
+}
+
+.inbox-item .who span:first-child {
+  color: var(--agreen);
+  font-weight: 700;
 }
 
 .inbox-item .when {
   font-size: 11px;
-  color: #86868b;
+  color: var(--afaint);
   font-weight: 400;
 }
 
 .inbox-item .snippet {
   font-size: 12px;
-  color: #707070;
+  color: var(--amuted);
   margin-top: 2px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -521,9 +768,9 @@
 }
 
 .inbox-detail {
-  background: #fff;
-  border: 1px solid #d2d2d7;
-  border-radius: 8px;
+  background: var(--apanel);
+  border: 1px solid var(--ahair);
+  border-radius: 12px;
   padding: 24px;
 }
 
@@ -533,17 +780,18 @@
   font-size: 14px;
   line-height: 1.5;
   margin: 16px 0;
+  color: var(--aink-2);
 }
 
 /* Misc -------------------------------------------------------------------- */
 
 .admin-note {
-  background: #f4f8fb;
-  border: 1px solid #d2d2d7;
-  border-radius: 8px;
+  background: var(--agreen-soft);
+  border: 1px solid var(--agreen-line);
+  border-radius: 12px;
   padding: 12px 16px;
   font-size: 13px;
-  color: #333;
+  color: #2c503b;
   margin-bottom: 20px;
 }
 
@@ -555,5 +803,106 @@
 .admin-empty {
   padding: 40px 20px;
   text-align: center;
-  color: #707070;
+  color: var(--amuted);
+}
+
+/* ==========================================================================
+   Mobile — the rail becomes a sticky top bar; pickers become sheets
+   ========================================================================== */
+
+@media (max-width: 820px) {
+  .admin-shell {
+    display: block;
+  }
+
+  .admin-side {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    height: auto;
+    max-height: none;
+    padding: 8px 6px;
+    padding-top: calc(6px + env(safe-area-inset-top, 0px));
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    box-shadow: 0 10px 30px -18px rgba(5, 8, 7, 0.6);
+  }
+
+  .admin-side::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-side-brand {
+    padding: 0 10px;
+    flex-shrink: 0;
+  }
+
+  .admin-side-tag,
+  .admin-side-title {
+    display: none;
+  }
+
+  .admin-side a {
+    padding: 8px 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .admin-side a.active {
+    background: transparent;
+    box-shadow: inset 0 -2px 0 #3fd985;
+  }
+
+  .admin-side-foot {
+    flex-direction: row;
+    gap: 12px;
+    margin-left: auto;
+    padding: 0 10px;
+  }
+
+  .admin-main {
+    padding: 20px 16px;
+    padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+    max-width: none;
+  }
+
+  /* Tables scroll inside their own panel instead of pushing the page wide. */
+  .apanel {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  /* The media picker is a full-height sheet on phones. */
+  .media-picker-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .media-picker {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border-radius: 0;
+  }
+
+  .admin-banner {
+    align-items: flex-start;
+  }
+
+  .admin-banner .abtn-primary {
+    width: 100%;
+  }
+
+  .admin-login-card {
+    padding: 24px 20px;
+    border-radius: 12px;
+  }
+
+  .aform-foot .abtn-primary {
+    flex: 1 1 auto;
+  }
 }

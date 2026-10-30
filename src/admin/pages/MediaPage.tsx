@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { deleteMedia, listMedia, uploadMedia, type MediaFile } from '../adminData';
+import { deleteMedia, friendlyDbError, listMedia, uploadMedia, type MediaFile } from '../adminData';
 
 export default function MediaPage() {
   const [files, setFiles] = useState<MediaFile[]>([]);
@@ -17,7 +17,7 @@ export default function MediaPage() {
     setError('');
     listMedia()
       .then(setFiles)
-      .catch((err) => setError(err instanceof Error ? err.message : 'Could not load media.'))
+      .catch((err) => setError(friendlyDbError(err)))
       .finally(() => setLoading(false));
   }
 
@@ -31,7 +31,7 @@ export default function MediaPage() {
         setFiles((prev) => [uploaded, ...prev]);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Upload failed.');
+      setError(friendlyDbError(err));
     } finally {
       setBusy(false);
     }
@@ -43,7 +43,7 @@ export default function MediaPage() {
       await deleteMedia(name);
       setFiles((prev) => prev.filter((file) => file.name !== name));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Delete failed.');
+      setError(friendlyDbError(err));
     }
   }
 

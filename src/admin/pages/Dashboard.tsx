@@ -9,6 +9,13 @@ interface Stat {
   value: number | string;
 }
 
+const QUICK_EDITS = [
+  { to: '/admin/text-blocks', title: 'Hero image & headline', note: 'Home top section' },
+  { to: '/admin/page-sections', title: 'Show / hide sections', note: 'Every page' },
+  { to: '/admin/media', title: 'Media library', note: 'Upload images' },
+  { to: '/admin/settings', title: 'Site settings', note: 'Brand & contact' },
+];
+
 export default function Dashboard() {
   const [stats, setStats] = useState<Stat[]>([]);
   const [latest, setLatest] = useState<ContactMessage[]>([]);
@@ -74,6 +81,18 @@ export default function Dashboard() {
             <p className="stat-num">{stat.value}</p>
             <p className="stat-label">{stat.label}</p>
           </div>
+        ))}
+      </div>
+
+      <h2 className="admin-section-title" style={{ marginBottom: 10 }}>Quick edits</h2>
+      <div className="stats" style={{ marginBottom: 24 }}>
+        {QUICK_EDITS.map((item) => (
+          <Link key={item.to} to={item.to} className="stat astat-link">
+            <p className="stat-num" style={{ fontSize: 15 }}>
+              {item.title} ↗
+            </p>
+            <p className="stat-label">{item.note}</p>
+          </Link>
         ))}
       </div>
 

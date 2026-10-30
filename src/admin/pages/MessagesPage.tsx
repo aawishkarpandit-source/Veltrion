@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchMessages, removeMessage, setMessageRead } from '../adminData';
+import { fetchMessages, friendlyDbError, removeMessage, setMessageRead } from '../adminData';
 import type { ContactMessage } from '../../lib/types';
 
 function formatDate(iso: string): string {
@@ -28,7 +28,7 @@ export default function MessagesPage() {
         setMessages(rows);
         setSelectedId((current) => current ?? rows[0]?.id ?? null);
       })
-      .catch((err) => setError(err instanceof Error ? err.message : 'Could not load messages.'))
+      .catch((err) => setError(friendlyDbError(err)))
       .finally(() => setLoading(false));
   }
 
@@ -40,7 +40,7 @@ export default function MessagesPage() {
     try {
       await setMessageRead(message.id, next);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Update failed.');
+      setError(friendlyDbError(err));
     }
   }
 
@@ -51,7 +51,7 @@ export default function MessagesPage() {
       setMessages((prev) => prev.filter((m) => m.id !== message.id));
       setSelectedId(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Delete failed.');
+      setError(friendlyDbError(err));
     }
   }
 

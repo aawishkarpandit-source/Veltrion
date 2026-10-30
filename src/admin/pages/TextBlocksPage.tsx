@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { requireClient, touchContent } from '../adminData';
+import MediaPicker from '../MediaPicker';
+import { requireClient, friendlyDbError, touchContent } from '../adminData';
 import { DEFAULT_BLOCKS } from '../../lib/defaultContent';
 import type { TextBlock } from '../../lib/types';
 
@@ -24,7 +25,7 @@ export default function TextBlocksPage() {
         const { data, error: err } = await requireClient().from('text_blocks').select('*').order('page');
         if (!alive) return;
         if (err) {
-          setError(err.message);
+          setError(friendlyDbError(err));
           return;
         }
         const existing = (data as TextBlock[]) ?? [];
@@ -44,7 +45,7 @@ export default function TextBlocksPage() {
         }
         setRows(blocks);
       } catch (err) {
-        if (alive) setError(err instanceof Error ? err.message : 'Could not load text blocks.');
+        if (alive) setError(friendlyDbError(err));
       }
     })();
     return () => {
@@ -71,7 +72,7 @@ export default function TextBlocksPage() {
       setRows((prev) => prev.map((r) => (r.key === row.key ? { ...r, isNew: false } : r)));
       setSavedKey(row.key);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Save failed.');
+      setError(friendlyDbError(err));
     } finally {
       setSavingKey('');
     }
@@ -92,33 +93,54 @@ export default function TextBlocksPage() {
 
       {pages.map((page) => (
         <section key={page} style={{ marginBottom: 32 }}>
-          <h2 style={{ fontSize: 13, fontWeight: 600, color: '#707070', marginBottom: 8, textTransform: 'capitalize' }}>
+          <h2 className="admin-section-title">
             {page === 'meta' ? 'Browser tabs & share previews' : page}
           </h2>
           <div className="apanel">
             {rows
               .filter((row) => row.page === page)
               .map((row) => (
-                <div key={row.key} style={{ padding: 16, borderBottom: '1px solid #f0f0f2' }}>
-                  <p style={{ fontSize: 12, fontWeight: 600, marginBottom: 6 }}>
+                <div key={row.key} className="ablock">
+                  <p className="ablock-label">
                     {row.label}
-                    {row.isNew && <span style={{ color: '#707070', fontWeight: 400 }}> — not in database yet</span>}
+                    {row.isNew && <span> — not in database yet</span>}
                   </p>
-                  <textarea
-                    className="textarea"
-                    style={{ minHeight: row.value.length > 90 ? 80 : 40, fontSize: 14 }}
-                    value={row.value}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setRows((prev) => prev.map((r) => (r.key === row.key ? { ...r, value } : r)));
-                      setSavedKey('');
-                    }}
-                  />
-                  <div style={{ marginTop: 8, display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <button className="abtn" type="button" disabled={savingKey === row.key} onClick={() => save(row)}>
+                  {row.key === 'home.hero.image' ? (
+                    <>
+                      <MediaPicker
+                        label="Hero image"
+                        value={row.value}
+                        onChange={(url) => {
+                          setRows((prev) => prev.map((r) => (r.key === row.key ? { ...r, value: url } : r)));
+                          setSavedKey('');
+                        }}
+                      />
+                      <span className="aform-help" style={{ marginTop: 4 }}>
+                        Uploaded to the site's home page. Leave empty to show the logo mark.
+                      </span>
+                    </>
+                  ) : (
+                    <textarea
+                      className="textarea"
+                      style={{ minHeight: row.value.length > 90 ? 80 : 40, fontSize: 14 }}
+                      value={row.value}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setRows((prev) => prev.map((r) => (r.key === row.key ? { ...r, value } : r)));
+                        setSavedKey('');
+                      }}
+                    />
+                  )}
+                  <div className="ablock-foot">
+                    <button
+                      className="abtn abtn-primary"
+                      type="button"
+                      disabled={savingKey === row.key}
+                      onClick={() => save(row)}
+                    >
                       {savingKey === row.key ? 'Saving…' : row.isNew ? 'Add to database' : 'Save'}
                     </button>
-                    {savedKey === row.key && <span className="aform-help">Saved.</span>}
+                    {savedKey === row.key && <span className="asaved">Saved.</span>}
                   </div>
                 </div>
               ))}

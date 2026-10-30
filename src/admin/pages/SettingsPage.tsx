@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { requireClient, socialLinesToString, socialStringToLinks, touchContent } from '../adminData';
+import { requireClient, friendlyDbError, socialLinesToString, socialStringToLinks, touchContent } from '../adminData';
 import type { SiteSettings } from '../../lib/types';
 
 const FALLBACK: SiteSettings = {
@@ -36,7 +36,7 @@ export default function SettingsPage() {
         setRow(settings);
         setSocialText(socialLinesToString(settings.social_links));
       } catch (err) {
-        if (alive) setError(err instanceof Error ? err.message : 'Could not load settings.');
+        if (alive) setError(friendlyDbError(err));
       }
     })();
     return () => {
@@ -69,7 +69,7 @@ export default function SettingsPage() {
       touchContent();
       setSaved(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Save failed.');
+      setError(friendlyDbError(err));
     } finally {
       setSaving(false);
     }

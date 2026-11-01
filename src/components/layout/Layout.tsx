@@ -5,6 +5,7 @@ import Footer from './Footer';
 import ShaderBackdrop from '../ui/ShaderBackdrop';
 import { useAsync } from '../../lib/hooks';
 import { getSettings } from '../../lib/content';
+import CookieBanner from '../ui/CookieBanner';
 
 function ThemeDefaults() {
   // A stored visitor choice always wins; otherwise the admin's default applies.
@@ -23,6 +24,7 @@ export default function Layout() {
   return (
     <>
       <ThemeDefaults />
+      <CookieBanner />
       <ShaderBackdrop />
       <Nav />
       <main className="app-main">

@@ -97,6 +97,10 @@ export default function Footer() {
             {settings?.footer_legal ?? 'Software & Digital Technology.'}
           </span>
           <span>{settings?.tagline ?? "Engineered for What's Next."}</span>
+          <p className="admin-empty" style={{ marginTop: 8, fontSize: 12, color: '#646966' }}>
+            <a href="/privacy" style={{ marginRight: 16, color: '#00a85c' }}>Privacy Policy</a>
+            <a href="/instructions/T&C.html" style={{ color: '#00a85c' }}>Terms of Service</a>
+          </p>
         </div>
       </div>
     </footer>

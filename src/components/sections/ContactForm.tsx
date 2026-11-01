@@ -1,13 +1,13 @@
 import { useState, type FormEvent } from 'react';
 import { getSupabase } from '../../lib/supabase';
 import { useAsync } from '../../lib/hooks';
-import { getTextBlocks } from '../../lib/content';
 import { CheckIcon } from '../ui/icons';
 
 interface Errors {
   name?: string;
   email?: string;
   message?: string;
+  acceptance?: string;
 }
 
 export default function ContactForm() {
@@ -16,6 +16,7 @@ export default function ContactForm() {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -27,6 +28,7 @@ export default function ContactForm() {
     if (!email.trim()) next.email = 'Please add your email so we can reply.';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) next.email = 'That email address looks incomplete.';
     if (message.trim().length < 10) next.message = 'Please describe what you need in a sentence or two.';
+    if (!acceptTerms) next.acceptance = 'You must accept the Privacy Policy and Terms of Service to submit.';
     return next;
   }
 
@@ -46,7 +48,7 @@ export default function ContactForm() {
     setFailure('');
     const { error } = await supabase
       .from('contact_messages')
-      .insert({ name: name.trim(), email: email.trim(), subject: subject.trim(), message: message.trim() });
+      .insert({ name: name.trim(), email: email.trim(), subject: subject.trim(), message: message.trim(), accepted_terms: acceptTerms });
     setSending(false);
 
     if (error) {
@@ -54,6 +56,8 @@ export default function ContactForm() {
       return;
     }
     setSent(true);
+    // Remember the acceptance for future visits
+    localStorage.setItem('vp_terms_accepted', 'true');
   }
 
   if (sent) {
@@ -115,6 +119,19 @@ export default function ContactForm() {
           aria-invalid={Boolean(errors.message)}
         />
         {errors.message && <span className="field-error">{errors.message}</span>}
+      </label>
+
+      <label className="field">
+        <span className="field-label">
+          <input
+            type="checkbox"
+            checked={acceptTerms}
+            onChange={(e) => setAcceptTerms(e.target.checked)}
+            required
+          />{' '}
+          I accept the <a href="/privacy" className="underline">Privacy Policy</a> and <a href="/instructions/T&C.html" className="underline">Terms of Service</a>
+        </span>
+        {errors.acceptance && <span className="field-error">{errors.acceptance}</span>}
       </label>
 
       {failure && (

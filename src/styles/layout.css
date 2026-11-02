@@ -353,6 +353,176 @@
   color: var(--color-ink-3);
 }
 
+.footer-legal-links {
+  display: flex;
+  gap: var(--spacing-16);
+}
+
+.footer-legal-links a {
+  color: var(--color-ink-3);
+  transition: color var(--duration-press) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-legal-links a:hover {
+    color: var(--color-link);
+  }
+}
+
+/* ==========================================================================
+   Legal pages (Privacy / Terms)
+   ========================================================================== */
+
+.legal-body {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.legal-updated {
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-40);
+}
+
+.legal-body h2 {
+  font-size: clamp(19px, 2.4vw, 24px);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.018em;
+  color: var(--color-ink);
+  margin: var(--spacing-40) 0 var(--spacing-12);
+}
+
+.legal-body h2:first-of-type {
+  margin-top: 0;
+}
+
+.legal-body p,
+.legal-body li {
+  color: var(--color-ink-2);
+  line-height: 1.65;
+  font-size: var(--text-body-sm);
+  letter-spacing: var(--tracking-body-sm);
+}
+
+.legal-body p {
+  margin-bottom: var(--spacing-12);
+}
+
+.legal-body p:last-child,
+.legal-body ul:last-child {
+  margin-bottom: 0;
+}
+
+.legal-body strong {
+  color: var(--color-ink);
+  font-weight: var(--weight-semibold);
+}
+
+.legal-body ul {
+  margin: 0 0 var(--spacing-12);
+  padding-left: 22px;
+}
+
+.legal-body li {
+  margin-bottom: var(--spacing-8);
+}
+
+.legal-body a {
+  color: var(--color-link);
+}
+
+.legal-note {
+  margin-top: var(--spacing-40);
+  padding: var(--spacing-16) var(--spacing-20);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--color-wash) 55%, transparent);
+  font-size: var(--text-caption) !important;
+  color: var(--color-muted) !important;
+}
+
+.legal-links {
+  margin-top: var(--spacing-24);
+  font-weight: var(--weight-semibold);
+}
+
+/* ==========================================================================
+   Cookie notice — slim, honest (functional storage only), no overlay
+   ========================================================================== */
+
+.cookie-banner {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 90;
+  width: min(680px, calc(100vw - 2 * var(--page-gutter)));
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16);
+  padding: 14px 18px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: 0 24px 64px -24px rgba(5, 8, 7, 0.5);
+  animation: cookie-in 480ms var(--ease-out) both;
+}
+
+@keyframes cookie-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.cookie-banner-text {
+  margin: 0;
+  flex: 1;
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-caption);
+  line-height: 1.45;
+  color: var(--color-ink-2);
+  min-width: 0;
+}
+
+.cookie-banner-text a {
+  color: var(--color-link);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cookie-banner .btn {
+  flex-shrink: 0;
+  min-height: 40px;
+  padding: 8px 20px;
+}
+
+@media (max-width: 560px) {
+  .cookie-banner {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .cookie-banner .btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-banner {
+    animation: none;
+  }
+}
+
 /* Reveal (scroll entrance) — only hidden when JS is running to animate it.
    GSAP drives the transform/opacity; this CSS is the no-JS / reduced-motion
    safety net so content is never left invisible. */

@@ -536,6 +536,52 @@
   box-shadow: var(--glow-soft);
 }
 
+/* Consent checkbox (Privacy Policy + Terms) — required on the contact form */
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: var(--spacing-16);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: border-color var(--duration-press) ease, box-shadow var(--duration-press) ease;
+}
+
+.form-check:focus-within {
+  border-color: var(--color-decor);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-decor) 25%, transparent);
+}
+
+.form-check:has(input[aria-invalid='true']) {
+  border-color: var(--color-danger, #d70015);
+}
+
+.form-check input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--color-fill);
+  cursor: pointer;
+}
+
+.form-check span {
+  font-size: var(--text-body-sm);
+  letter-spacing: var(--tracking-body-sm);
+  line-height: 1.5;
+  color: var(--color-ink-2);
+  -webkit-text-size-adjust: 100%;
+}
+
+.form-check span a {
+  color: var(--color-link);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .form-success .check-icon {
   width: 40px;
   height: 40px;

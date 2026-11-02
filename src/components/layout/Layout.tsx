@@ -3,9 +3,9 @@ import { Outlet } from 'react-router-dom';
 import Nav from './Nav';
 import Footer from './Footer';
 import ShaderBackdrop from '../ui/ShaderBackdrop';
+import CookieBanner from '../ui/CookieBanner';
 import { useAsync } from '../../lib/hooks';
 import { getSettings } from '../../lib/content';
-import CookieBanner from '../ui/CookieBanner';
 
 function ThemeDefaults() {
   // A stored visitor choice always wins; otherwise the admin's default applies.
@@ -24,13 +24,13 @@ export default function Layout() {
   return (
     <>
       <ThemeDefaults />
-      <CookieBanner />
       <ShaderBackdrop />
       <Nav />
       <main className="app-main">
         <Outlet />
       </main>
       <Footer />
+      <CookieBanner />
     </>
   );
 }

@@ -120,6 +120,30 @@ export const DEFAULT_BLOCKS: TextBlock[] = [
     value: '',
   },
   {
+    key: 'meta.privacy.title',
+    page: 'legal',
+    label: 'Privacy Policy — browser tab & share preview title',
+    value: 'Privacy Policy — VELTRION',
+  },
+  {
+    key: 'meta.privacy.description',
+    page: 'legal',
+    label: 'Privacy Policy — share preview description',
+    value: 'How VELTRION handles information on this site — plainly stated. No tracking or advertising cookies.',
+  },
+  {
+    key: 'meta.terms.title',
+    page: 'legal',
+    label: 'Terms of Service — browser tab & share preview title',
+    value: 'Terms of Service — VELTRION',
+  },
+  {
+    key: 'meta.terms.description',
+    page: 'legal',
+    label: 'Terms of Service — share preview description',
+    value: 'The ground rules for using this site and working with VELTRION.',
+  },
+  {
     key: 'services.title',
     page: 'home',
     label: 'Services — section heading',

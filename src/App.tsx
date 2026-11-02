@@ -6,8 +6,8 @@ import About from './pages/About';
 import OurWork from './pages/OurWork';
 import Download from './pages/Download';
 import Contact from './pages/Contact';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import TermsOfService from './pages/TermsOfService';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
 import AdminApp from './admin/AdminApp';
 
@@ -31,8 +31,8 @@ export default function App() {
           <Route path="/our-work" element={<OurWork />} />
           <Route path="/download" element={<Download />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/instructions/T&C.html" element={<TermsOfService />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

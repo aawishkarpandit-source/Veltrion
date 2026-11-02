@@ -1,13 +1,15 @@
 import { useState, type FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { getSupabase } from '../../lib/supabase';
 import { useAsync } from '../../lib/hooks';
+import { getTextBlocks } from '../../lib/content';
 import { CheckIcon } from '../ui/icons';
 
 interface Errors {
   name?: string;
   email?: string;
   message?: string;
-  acceptance?: string;
+  accepted?: string;
 }
 
 export default function ContactForm() {
@@ -16,7 +18,7 @@ export default function ContactForm() {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
-  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [accepted, setAccepted] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -28,7 +30,7 @@ export default function ContactForm() {
     if (!email.trim()) next.email = 'Please add your email so we can reply.';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) next.email = 'That email address looks incomplete.';
     if (message.trim().length < 10) next.message = 'Please describe what you need in a sentence or two.';
-    if (!acceptTerms) next.acceptance = 'You must accept the Privacy Policy and Terms of Service to submit.';
+    if (!accepted) next.accepted = 'Please accept the Privacy Policy and Terms of Service to continue.';
     return next;
   }
 
@@ -46,9 +48,26 @@ export default function ContactForm() {
 
     setSending(true);
     setFailure('');
-    const { error } = await supabase
-      .from('contact_messages')
-      .insert({ name: name.trim(), email: email.trim(), subject: subject.trim(), message: message.trim(), accepted_terms: acceptTerms });
+    let query = supabase.from('contact_messages').insert({
+      name: name.trim(),
+      email: email.trim(),
+      subject: subject.trim(),
+      message: message.trim(),
+      // Proof of consent: the visitor accepted Privacy + Terms via the checkbox.
+      accepted: accepted,
+    });
+    let { error } = await query;
+
+    // Migration 0007 (consent column) not applied yet — send without it
+    // rather than losing the message.
+    if (error && /accepted/i.test(error.message ?? '')) {
+      ({ error } = await supabase.from('contact_messages').insert({
+        name: name.trim(),
+        email: email.trim(),
+        subject: subject.trim(),
+        message: message.trim(),
+      }));
+    }
     setSending(false);
 
     if (error) {
@@ -56,8 +75,6 @@ export default function ContactForm() {
       return;
     }
     setSent(true);
-    // Remember the acceptance for future visits
-    localStorage.setItem('vp_terms_accepted', 'true');
   }
 
   if (sent) {
@@ -121,24 +138,28 @@ export default function ContactForm() {
         {errors.message && <span className="field-error">{errors.message}</span>}
       </label>
 
-      <label className="field">
-        <span className="field-label">
-          <input
-            type="checkbox"
-            checked={acceptTerms}
-            onChange={(e) => setAcceptTerms(e.target.checked)}
-            required
-          />{' '}
-          I accept the <a href="/privacy" className="underline">Privacy Policy</a> and <a href="/instructions/T&C.html" className="underline">Terms of Service</a>
-        </span>
-        {errors.acceptance && <span className="field-error">{errors.acceptance}</span>}
-      </label>
-
       {failure && (
         <p className="field-error" role="alert">
           {failure}
         </p>
       )}
+
+      <label className="form-check">
+        <input
+          type="checkbox"
+          checked={accepted}
+          onChange={(e) => {
+            setAccepted(e.target.checked);
+            if (errors.accepted) setErrors({ ...errors, accepted: undefined });
+          }}
+          aria-invalid={Boolean(errors.accepted)}
+        />
+        <span>
+          I accept the <Link to="/privacy">Privacy Policy</Link> and{' '}
+          <Link to="/terms">Terms of Service</Link>.
+        </span>
+      </label>
+      {errors.accepted && <span className="field-error">{errors.accepted}</span>}
 
       <div>
         <button type="submit" className="btn btn-filled" disabled={sending}>

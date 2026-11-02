@@ -120,6 +120,8 @@ export interface ContactMessage {
   subject: string;
   message: string;
   read: boolean;
+  /** The contact form requires accepting the Privacy Policy + Terms; recorded as proof. */
+  accepted?: boolean;
   created_at: string;
 }
 

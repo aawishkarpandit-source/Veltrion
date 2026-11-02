@@ -17,9 +17,19 @@ const ROUTES = [
   { path: '/our-work', block: 'meta.work' },
   { path: '/download', block: 'meta.download' },
   { path: '/contact', block: 'meta.contact' },
+  { path: '/privacy', block: 'meta.privacy' },
+  { path: '/terms', block: 'meta.terms' },
 ];
 
 const FALLBACK_TITLES = {
+  'meta.privacy': {
+    title: 'Privacy Policy — VELTRION',
+    description: 'How VELTRION handles information on this site — plainly stated. No tracking or advertising cookies.',
+  },
+  'meta.terms': {
+    title: 'Terms of Service — VELTRION',
+    description: 'The ground rules for using this site and working with VELTRION.',
+  },
   'meta.home': {
     title: 'VELTRION — Software & Digital Technology',
     description:

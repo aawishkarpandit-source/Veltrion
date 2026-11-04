@@ -11,11 +11,11 @@ export default function Hero() {
   const dark = theme === 'dark';
   const sceneRef = useRef<HTMLElement>(null);
 
-  const headline = blocks?.['home.hero.headline'] ?? "VELTRION";
+  const headline = blocks?.['home.hero.headline'];
   const subline =
-    blocks?.['home.hero.subline'] ?? "Engineered for What's Next.";
-  const ctaPrimary = blocks?.['home.hero.cta_primary'] ?? 'See our work';
-  const ctaSecondary = blocks?.['home.hero.cta_secondary'] ?? 'Contact us';
+    blocks?.['home.hero.subline'] ?? "Loading...";
+  const ctaPrimary = blocks?.['home.hero.cta_primary'];
+  const ctaSecondary = blocks?.['home.hero.cta_secondary'];
   // Admin-editable hero image (Text blocks). Empty = default logo mark.
   const heroImage = (blocks?.['home.hero.image'] ?? '').trim();
 

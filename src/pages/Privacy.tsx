@@ -114,7 +114,7 @@ export default function Privacy() {
 
             <h2>11. Contact</h2>
             <p>
-              Privacy questions or deletion requests: <a href="mailto:hello@veltrion.com">hello@veltrion.com</a>{' '}
+              Privacy questions or deletion requests: <a href="cg.npdigital@gmail.com">cg.npdigital@gmail.com</a>{' '}
               — or use the <Link to="/contact">contact form</Link> (privacy requests in the subject
               line reach us faster).
             </p>

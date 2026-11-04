@@ -118,7 +118,7 @@ export default function Terms() {
 
             <h2>13. Contact</h2>
             <p>
-              Questions about these terms: <a href="mailto:hello@veltrion.com">hello@veltrion.com</a> or
+              Questions about these terms: <a href="mailto:cg.npdigital@gmail.com">cg.npdigital@gmail.com</a> or
               the <Link to="/contact">contact form</Link>. Legal matters are handled by our Legal
               Advisor.
             </p>

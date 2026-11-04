@@ -11,9 +11,9 @@ export default function Hero() {
   const dark = theme === 'dark';
   const sceneRef = useRef<HTMLElement>(null);
 
-  const headline = blocks?.['home.hero.headline'] ?? "Engineered for What's Next.";
+  const headline = blocks?.['home.hero.headline'] ?? "VELTRION";
   const subline =
-    blocks?.['home.hero.subline'] ?? 'Websites, software, business systems, design, marketing and support.';
+    blocks?.['home.hero.subline'] ?? "Engineered for What's Next.";
   const ctaPrimary = blocks?.['home.hero.cta_primary'] ?? 'See our work';
   const ctaSecondary = blocks?.['home.hero.cta_secondary'] ?? 'Contact us';
   // Admin-editable hero image (Text blocks). Empty = default logo mark.
